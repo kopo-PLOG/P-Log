@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Fixedsys';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
 #container{
     display: flex;
     justify-content: center;
@@ -27,6 +34,8 @@
     width:50%;
     height: 100%;
     background-color: rgb(92, 77, 147);
+    font-family: 'Fixedsys';
+    font-size: 30px;
 }
 #game{
     width:50%;
