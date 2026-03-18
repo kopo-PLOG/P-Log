@@ -6,7 +6,7 @@
 }
 
 img {
- -webkit-user-select: none;
+    -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -o-user-select: none;
@@ -43,7 +43,7 @@ img {
     background-color: rgb(255, 255, 255);
     display: flex;
     border-top-left-radius: 16.5px;
-     border-top-right-radius: 16.5px;
+    border-top-right-radius: 16.5px;
 }
 #health{
     width:80%;
