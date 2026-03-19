@@ -47,43 +47,82 @@ let lastState = 1;
 localStorage.setItem("lastState", lastState);
 ///////////////////////////////////////////////////
 
-const main = document.getElementById("mainImg");
+////////키보드 이벤트//////////
 
-startBase();
+document.addEventListener("keydown", (e) => {
+    const game = document.getElementById("game");
+    const toilet = document.getElementById("toilet");
+    const food = document.getElementById("food");
 
-function startBase(){
-    console.log("다마고치 쉬고 있음!!!!");
+    console.log(e.key);
 
-    main.src = state[0].src;
-
-    setTimeout(() => {
-        console.log("dkdkdkdkdkdkdk")
-        randomEvent();
-    }, state[0].time);
-}
-
-function randomEvent(){
-    let randomIndex = 0;
-    while(true){
-        randomIndex = Math.floor(Math.random() * 3) + 1;
-        const lastState = parseInt(localStorage.getItem("lastState"));
-        console.log(randomIndex);
-        console.log(lastState);
-        if(randomIndex != lastState){
-            continue;
-        }else{
-            localStorage.setItem("lastSate", randomIndex);
-            break;
+    if(e.key === "ArrowRight"){
+        if(toilet.classList.contains("check")){
+            toilet.classList.remove("check")
+            food.classList.add("check");
+        }else if(food.classList.contains("check")){
+            food.classList.remove("check");
+            game.classList.add("check")
+        }
+    }else if(e.key === "ArrowLeft"){
+        console.log("좌측");
+        if(game.classList.contains("check")){
+            game.classList.remove("check");
+            food.classList.add("check")
+        }else if(food.classList.contains("check")){
+            food.classList.remove("check");
+            toilet.classList.add("check");
+        }
+    }else if(e.key === "ArrowDown"){
+        console.log("하측");
+        if(game.classList.contains("check")){
+            console.log("game 선택");
+        }else if(toilet.classList.contains("check")){
+            console.log("toilet 선택");
+        }else if(food.classList.contains("check")){
+            console.log("food 선택");
         }
     }
+})
+
+
+// const main = document.getElementById("mainImg");
+
+// startBase();
+
+// function startBase(){
+//     console.log("다마고치 쉬고 있음!!!!");
+
+//     main.src = state[0].src;
+
+//     setTimeout(() => {
+//         console.log("dkdkdkdkdkdkdk")
+//         randomEvent();
+//     }, state[0].time);
+// }
+
+// function randomEvent(){
+//     let randomIndex = 0;
+//     while(true){
+//         randomIndex = Math.floor(Math.random() * 3) + 1;
+//         const lastState = parseInt(localStorage.getItem("lastState"));
+//         console.log(randomIndex);
+//         console.log(lastState);
+//         if(randomIndex != lastState){
+//             continue;
+//         }else{
+//             localStorage.setItem("lastSate", randomIndex);
+//             break;
+//         }
+//     }
     
    
-    main.src = state[randomIndex].src;
+//     main.src = state[randomIndex].src;
 
-    setTimeout(() => {
-        console.log("반응 못함");
-        main.src = state[4].src;
-        startBase();
-    }, state[randomIndex].time);
+//     setTimeout(() => {
+//         console.log("반응 못함");
+//         main.src = state[4].src;
+//         startBase();
+//     }, state[randomIndex].time);
 
-}
+// }

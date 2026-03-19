@@ -199,3 +199,9 @@ img {
     height: 95%;
     object-fit: fill;
 }
+
+.check{
+    border: 7px solid yellow;
+    box-sizing: border-box;
+    border-radius: 16.5px;
+}
