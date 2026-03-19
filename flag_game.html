@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flag_game</title>
+    <link rel="stylesheet" href="flag_game.css">
+</head>
+<body>
+    <div id="container">
+        <img id="background" src="./image/background.png" alt="background">
+
+        <div id="screen">
+            <div id="top-bar">
+                <div class="info-group left-group">
+                    <div class="label">문제</div>
+                    <div class="value" id="round">1/10</div>
+                </div>
+
+                <div class="info-group right-group">
+                    <div class="label">맞춘 횟수</div>
+                    <div class="value" id="score">0</div>
+                </div>
+            </div>
+
+            <div id="game-area">
+                <img id="pico" src="./image/삐코_청기백기2.jpg" alt="삐코 청기백기">
+            </div>
+
+            <div id="arrow-box">
+                <div id="left-arrow">←</div>
+                <div id="right-arrow">→</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="flag_game.js"></script>
+</body>
+</html>
