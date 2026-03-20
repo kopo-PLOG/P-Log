@@ -113,6 +113,7 @@ img {
     /* border: 5px solid yellow;
     border-radius: 16.5px;
     box-sizing: border-box; */
+    position: relative;
 }
 #game>div{
     width: 80%;
@@ -201,7 +202,18 @@ img {
 }
 
 .check{
-    border: 7px solid yellow;
+    border: 7px solid lightblue;
     box-sizing: border-box;
     border-radius: 16.5px;
+    /* background-color: ; */
 }
+/* .check::after{
+
+    content: "";
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    background-color: rgba(173, 216, 230, 0.37);
+    position: absolute;
+} */

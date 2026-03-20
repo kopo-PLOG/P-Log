@@ -18,7 +18,7 @@ const state = [
         time: 10000
     },
     {
-        id: "bored",
+        id: "game",
         src: "image/indexImg/pico_bored.gif",
         alt: "피코 심심한 버전",
         time: 10000
@@ -63,6 +63,9 @@ document.addEventListener("keydown", (e) => {
         }else if(food.classList.contains("check")){
             food.classList.remove("check");
             game.classList.add("check")
+        }else if(game.classList.contains("check")){
+            game.classList.remove("check");
+            toilet.classList.add("check");
         }
     }else if(e.key === "ArrowLeft"){
         console.log("좌측");
@@ -72,6 +75,9 @@ document.addEventListener("keydown", (e) => {
         }else if(food.classList.contains("check")){
             food.classList.remove("check");
             toilet.classList.add("check");
+        }else if(toilet.classList.contains("check")){
+            toilet.classList.remove("check");
+            game.classList.add("check");
         }
     }else if(e.key === "ArrowDown"){
         console.log("하측");
@@ -86,43 +92,70 @@ document.addEventListener("keydown", (e) => {
 })
 
 
-// const main = document.getElementById("mainImg");
+///////////////////     전환      //////////////////////////
 
-// startBase();
+const main = document.getElementById("mainImg");
+let randomState = 0;
+let angryTimer = null;
 
-// function startBase(){
-//     console.log("다마고치 쉬고 있음!!!!");
+startBase();
 
-//     main.src = state[0].src;
+function startBase(){
+    console.log("다마고치 쉬고 있음!!!!");
 
-//     setTimeout(() => {
-//         console.log("dkdkdkdkdkdkdk")
-//         randomEvent();
-//     }, state[0].time);
-// }
+    main.src = state[0].src;
 
-// function randomEvent(){
-//     let randomIndex = 0;
-//     while(true){
-//         randomIndex = Math.floor(Math.random() * 3) + 1;
-//         const lastState = parseInt(localStorage.getItem("lastState"));
-//         console.log(randomIndex);
-//         console.log(lastState);
-//         if(randomIndex != lastState){
-//             continue;
-//         }else{
-//             localStorage.setItem("lastSate", randomIndex);
-//             break;
-//         }
-//     }
+    setTimeout(() => {
+        console.log("dkdkdkdkdkdkdk")
+        randomEvent();
+    }, state[0].time);
+}
+
+
+
+function randomEvent(){
+    //이전 타이머가 돌고 있다면 청소
+    if(angryTimer) clearTimeout(angryTimer);
+
+    
+    while(true){
+        randomState = Math.floor(Math.random() * 3) + 1;
+        const lastState = parseInt(localStorage.getItem("lastState"));
+        console.log(randomState);
+        console.log(lastState);
+        if(randomIndex != lastState){
+            continue;
+        }else{
+            localStorage.setItem("lastState", randomState);
+            break;
+        }
+    }
     
    
-//     main.src = state[randomIndex].src;
+    main.src = state[randomIndex].src;
 
-//     setTimeout(() => {
-//         console.log("반응 못함");
-//         main.src = state[4].src;
-//         startBase();
-//     }, state[randomIndex].time);
+    angryTimer = setTimeout(() => {
+        console.log("반응 못함");
+        getAngry();
+    }, state[randomState].time);
 
-// }
+}
+
+
+function getAngry(){
+    mainImg.src = state[4].src;
+    
+}
+
+document.addEventListener("keydown", (e) => {
+    let checkState = document.querySelectorAll(".check");
+    if(e.key === "ArrowDown"){
+        if(checkState[0].id === "game" && state[randomState].id == "bored"){
+            if(angryTimer){
+                console.log("게임 클릭!!! 휴 ");
+                clearTimeout(angryTimer);
+                angryTimer = "";
+            }
+        }else if(checkState[0].id === sta)
+    }
+})
