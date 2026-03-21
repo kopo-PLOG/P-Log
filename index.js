@@ -51,7 +51,7 @@ const state = [
         id : "tired",
         src : "image/indexImg/pico_tired.gif",
         alt : "피코 피곤 버전",
-        time : 5000
+        time : 10000
     }
 ]
 
@@ -129,9 +129,148 @@ if(currentHealth ==  null){
 
 let lastState = 1;
 localStorage.setItem("lastState", lastState);
-///////////////////////////////////////////////////
 
-////////키보드 이벤트//////////
+///////////////////     전환      //////////////////////////
+
+const main = document.getElementById("mainImg");
+let randomState = 0;
+let angryTimer = null;
+
+////start
+startBase();
+
+drawHealth();
+drawLevel()
+
+
+//health 게이지 
+function drawHealth(){
+
+    const healthGage = parseInt(localStorage.getItem("health"));
+    console.log("drawHealth");
+    const heart1 = document.getElementById("heart1");
+    const heart2 = document.getElementById("heart2");
+    const heart3 = document.getElementById("heart3");
+    const heart4 = document.getElementById("heart4");
+
+    let s = "";
+
+    if(healthGage % 40 === 10){
+        s = health[1].src;
+    }else if(healthGage % 40 === 20){
+        s = health[2].src
+    }else if(healthGage % 40 === 30){
+        s = health[3].src
+    }else if(healthGage % 40 === 0){
+        s = health[4].src
+    }
+
+    if(healthGage > 0 && healthGage <= 40){
+        heart1.firstElementChild.src = s;
+        heart2.firstElementChild.src = health[0].src;
+        heart3.firstElementChild.src = health[0].src;
+        heart4.firstElementChild.src = health[0].src;
+    }else if(healthGage > 40 && healthGage <= 80){
+        heart1.firstElementChild.src = health[4].src;
+        heart2.firstElementChild.src = s;
+        heart3.firstElementChild.src = health[0].src;
+        heart4.firstElementChild.src = health[0].src;
+    }else if(healthGage >80 && healthGage <=120){
+        heart1.firstElementChild.src = health[4].src;
+        heart2.firstElementChild.src = health[4].src;
+        heart3.firstElementChild.src = s;
+        heart4.firstElementChild.src = health[0].src;
+    }else if(healthGage > 120){
+        heart1.firstElementChild.src = health[4].src;
+        heart2.firstElementChild.src = health[4].src;
+        heart3.firstElementChild.src = health[4].src;
+        heart4.firstElementChild.src = health[4].src;
+    }else if(healthGage === 0){
+        heart1.firstElementChild.src = health[0].src;
+        heart2.firstElementChild.src = health[0].src;
+        heart3.firstElementChild.src = health[0].src;
+        heart4.firstElementChild.src = health[0].src;
+    }
+}
+
+//level 게이지
+function drawLevel(){
+    const level = parseInt(localStorage.getItem("level"));
+
+    if(level >= 120){
+        main.src = state[7].src;
+
+        setTimeout(() => {
+            ending();
+        }, state[7].time);
+    }
+}
+
+//평범 피코
+function startBase(){
+
+    const gage = parseInt(localStorage.getItem("health"));
+    console.log(`statBase() : health = ${gage}`);
+
+    if(gage <= 40){
+        main.src = state[8].src;
+    }else{
+        main.src = state[0].src;
+    }
+
+    setTimeout(() => {
+        //console.log("dkdkdkdkdkdkdk")
+        randomEvent();
+    }, state[0].time);
+}
+
+function randomEvent(){
+
+    //이전 타이머가 돌고 있다면 청소
+    if(angryTimer) {
+        clearTimeout(angryTimer);
+    }
+
+    while(true){
+        randomState = Math.floor(Math.random() * 3) + 1;
+        const lastState = parseInt(localStorage.getItem("lastState"));
+        console.log(randomState);
+        console.log(lastState);
+        if(randomState === lastState){
+            continue;
+        }else{
+            localStorage.setItem("lastState", randomState);
+            break;
+        }
+    }
+    main.src = state[randomState].src;
+
+    angryTimer = setTimeout(() => {
+        console.log("반응 못함");
+        getAngry();
+    }, state[randomState].time);
+
+}
+
+//10초동안 반응하지 않았을 때 화냄
+function getAngry(){
+    console.log("getAngry() 화냄!!");
+
+    main.src = state[4].src;
+    
+    //반응 못하면 health -10 차감
+    if(parseInt(localStorage.getItem("health")) > 0){
+        localStorage.setItem("health", parseInt(localStorage.getItem("health")) - 10); 
+    }
+    
+    drawHealth();
+
+    setTimeout(() => {
+        startBase();
+    }, state[4].time);
+}
+
+
 
 document.addEventListener("keydown", (e) => {
     const game = document.getElementById("game");
@@ -173,159 +312,7 @@ document.addEventListener("keydown", (e) => {
             console.log("food 선택");
         }
     }
-})
 
-
-///////////////////     전환      //////////////////////////
-
-const main = document.getElementById("mainImg");
-let healthGage = parseInt(localStorage.getItem("health"));
-let randomState = 0;
-let angryTimer = null;
-
-////start
-if(healthGage > 80){
-    startBase();
-}else{
-    getTired();
-}
-
-
-drawHealth();
-drawLevel()
-
-
-//health 게이지 
-function drawHealth(){
-    healthGage = parseInt(localStorage.getItem("health"));
-    console.log("drawHealth");
-    const heart1 = document.getElementById("heart1");
-    const heart2 = document.getElementById("heart2");
-    const heart3 = document.getElementById("heart3");
-    const heart4 = document.getElementById("heart4");
-
-    let s = "";
-
-    if(healthGage % 40 === 10){
-        s = health[1].src;
-    }else if(healthGage % 40 === 20){
-        s = health[2].src
-    }else if(healthGage % 40 === 30){
-        s = health[3].src
-    }else if(healthGage % 40 === 0){
-        s = health[4].src
-    }
-
-    if(healthGage > 0 && healthGage <= 40){
-        main.src = state[8].src;
-        heart1.firstElementChild.src = s;
-        heart2.firstElementChild.src = health[0].src;
-        heart3.firstElementChild.src = health[0].src;
-        heart4.firstElementChild.src = health[0].src;
-    }else if(healthGage > 40 && healthGage <= 80){
-        heart1.firstElementChild.src = health[4].src;
-        heart2.firstElementChild.src = s;
-        heart3.firstElementChild.src = health[0].src;
-        heart4.firstElementChild.src = health[0].src;
-    }else if(healthGage >80 && healthGage <=120){
-        heart1.firstElementChild.src = health[4].src;
-        heart2.firstElementChild.src = health[4].src;
-        heart3.firstElementChild.src = s;
-        heart4.firstElementChild.src = health[0].src;
-    }else if(healthGage > 120){
-        heart1.firstElementChild.src = health[4].src;
-        heart2.firstElementChild.src = health[4].src;
-        heart3.firstElementChild.src = health[4].src;
-        heart4.firstElementChild.src = health[4].src;
-    }else if(healthGage === 0){
-        heart1.firstElementChild.src = health[0].src;
-        heart2.firstElementChild.src = health[0].src;
-        heart3.firstElementChild.src = health[0].src;
-        heart4.firstElementChild.src = health[0].src;
-    }
-}
-
-//level 게이지
-function drawLevel(){
-    const level = parseInt(localStorage.getItem("level"));
-
-    if(level >= 120){
-        main.src = state[7].src;
-
-        setTimeout(() => {
-            ending();
-        }, state[7].time);
-    }
-}
-
-function startBase(){
-    console.log("다마고치 쉬고 있음!!!!");
-
-    main.src = state[0].src;
-
-    setTimeout(() => {
-        //console.log("dkdkdkdkdkdkdk")
-        randomEvent();
-    }, state[0].time);
-}
-
-
-
-function randomEvent(){
-    //이전 타이머가 돌고 있다면 청소
-    if(angryTimer) clearTimeout(angryTimer);
-
-    while(true){
-        randomState = Math.floor(Math.random() * 3) + 1;
-        const lastState = parseInt(localStorage.getItem("lastState"));
-        console.log(randomState);
-        console.log(lastState);
-        if(randomState === lastState){
-            continue;
-        }else{
-            localStorage.setItem("lastState", randomState);
-            break;
-        }
-    }
-    main.src = state[randomState].src;
-
-    angryTimer = setTimeout(() => {
-        console.log("반응 못함");
-        getAngry();
-    }, state[randomState].time);
-
-}
-
-//10초동안 반응하지 않았을 때 화냄
-function getAngry(){
-    main.src = state[4].src;
-    
-    //반응 못하면 health -10 차감
-    if(parseInt(localStorage.getItem("health")) > 0){
-        localStorage.setItem("health", parseInt(localStorage.getItem("health")) - 10); 
-    }
-    
-    drawHealth();
-
-    setTimeout(() => {
-        if(parseInt(localStorage.getItem("health")) <= 40){
-            getTired();
-        }else{
-            startBase();
-        }
-    }, state[4].time);
-}
-
-function getTired(){
-    main.src = state[8].src;
-
-    setTimeout(() => {
-        //console.log("dkdkdkdkdkdkdk")
-        randomEvent();
-    }, state[0].time);
-}
-
-document.addEventListener("keydown", (e) => {
     let checkState = document.querySelectorAll(".check");
     console.log("select 이벤트!")
     if(e.key === "ArrowDown"){
@@ -333,25 +320,33 @@ document.addEventListener("keydown", (e) => {
         console.log(checkState[0].id);
         console.log(state[randomState].id)
         if(checkState[0].id === state[randomState].id){
+
+            //요구에 맞는 행동 선택
             if(angryTimer){
                 console.log("게임 클릭!!! 휴 ");
                 //클릭시 health +10
                 if(parseInt(localStorage.getItem("health")) < 160){
                     localStorage.setItem("health", parseInt(localStorage.getItem("health")) + 10);
                 }
+
                 drawHealth();
+                
+                //예약된 setTimeout() 함수 취소
                 clearTimeout(angryTimer);
                 angryTimer = "";
+
                 main.src = state[5].src;
                 setTimeout(() => {
-                    if(parseInt(localStorage.getItem("health")) <= 40){
-                        getTired();
-                    }else{
-                        startBase();
-                    }
-                    
+                    startBase();
                 }, state[5].time);
             }
+        }else{
+
+            // //요구에 잘못된 행동 선택
+            console.log("잘못 선택했습니다!!!")
+            clearTimeout(angryTimer);
+            angryTimer = "";
+            getAngry();
         }
     }
 })
