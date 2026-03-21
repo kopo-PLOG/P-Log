@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>방향 맞추기</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="memo.css">
+</head>
+<body>
+    <div id="container">
+        <img id="background" src="./image/background.png" alt="background">
+
+        <div id="screen">
+            <div class="memo-wrap">
+                <h2 class="game-title">방향 맞추기</h2>
+
+                <div class="info-box">
+                    <span>라운드 : <span id="round"></span> / 5</span>
+                    <span>성공 : <span id="score"></span></span>
+                </div>
+
+                <div class="gauge-wrap"> <!-- 게임 win 시 게이지 획득 부분 -->
+                    <div id="level" class="gauge-fill"></div>
+                </div>
+
+                <div id="timer-box">
+                    남은 시간 : <span id="time">초</span>
+                </div>
+
+                <!-- <p id="phase-text">게임 시작 버튼을 누르세요</p> -->
+
+
+                <div id="input-display"></div> <!-- 게임 시에 <,>가 나오는 박스임! -->
+
+                <div id="arrow-display">
+                    <img src="./image/삐코_암기게임.png" alt="암기게임 이미지">
+                </div>
+
+                <div id="button-area">
+                    <button class="arrow-btn" id="left-btn">←</button>
+                    <button class="arrow-btn" id="right-btn">→</button>
+                </div>
+
+                <button id="start-btn">게임 시작</button>
+
+                <p id="result-message"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="memorization.js"></script>
+</body>
+</html>
