@@ -4,7 +4,6 @@
     font-weight: normal;
     font-display: swap;
 }
-
 body{
     margin: 0;
     font-family: 'Fixedsys';
@@ -19,7 +18,6 @@ body{
 #background{
     width: 750px;
     height: 850px;
-    min-width: 750px;
 }
 
 #screen{
@@ -28,7 +26,7 @@ body{
     width: 423px;
     height: 373px;
     border: 1px solid black;
-    border-radius: 16.5px;
+    border-radius: 16px;
     background: #f3f3f3;
     display: flex;
     flex-direction: column;
@@ -36,8 +34,8 @@ body{
 }
 
 #top-bar{
-    height: 16%;
-    background: #e5e5e5;
+    height: 14%;
+    background: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -52,13 +50,34 @@ body{
     gap: 8px;
 }
 
+#command{
+    height: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    background: #ffffff;
+ 
+}
+
+#timer{
+    height: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    background:white;
+
+    
+}
+
 #game-area{
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background: #f8f8f8;
+    background: white;
 }
 
 #pico{
@@ -67,22 +86,24 @@ body{
     object-fit: contain;
 }
 
-#arrow-box{
-    height: 18%;
+#button-area{
+    height: 16%;
     display: flex;
     border-top: 1px solid black;
-    background: #fff205;
+    background: lightblue;
 }
 
-#left-arrow,
-#right-arrow{
+#button-area button{
     width: 50%;
+    border: none;
+    font-size: 24px;
+    font-family: 'Fixedsys';
+    background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 34px;
 }
 
-#left-arrow{
+#button-area button:first-child{
     border-right: 1px solid black;
 }

@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>flag_game</title>
-    <link rel="stylesheet" href="flag_game.css">
+  <meta charset="UTF-8">
+  <title>청기백기 게임</title>
+  <link rel="stylesheet" href="flag_game.css">
 </head>
 <body>
-    <div id="container">
-        <img id="background" src="./image/background.png" alt="background">
 
-        <div id="screen">
-            <div id="top-bar">
-                <div class="info-group left-group">
-                    <div class="label">문제</div>
-                    <div class="value" id="round">1/10</div>
-                </div>
+<div id="container">
+  <img id="background" src="./image/background.png" alt="배경">
 
-                <div class="info-group right-group">
-                    <div class="label">맞춘 횟수</div>
-                    <div class="value" id="score">0</div>
-                </div>
-            </div>
+  <div id="screen">
 
-            <div id="game-area">
-                <img id="pico" src="./image/삐코_청기백기2.jpg" alt="삐코 청기백기">
-            </div>
-
-            <div id="arrow-box">
-                <div id="left-arrow">←</div>
-                <div id="right-arrow">→</div>
-            </div>
-        </div>
+    <div id="top-bar">
+      <div class="info-group">
+        <span>문제</span>
+        <span id="round">1/10</span>
+      </div>
+      <div class="info-group">
+        <span>점수</span>
+        <span id="score">0</span>
+      </div>
     </div>
 
-    <script src="flag_game.js"></script>
+    <div id="command">준비!</div>
+
+    <div id="timer">3</div>
+
+    <div id="game-area">
+      <img id="pico" src="./image/flag/삐코_청기백기2.jpg">
+    </div>
+
+    <div id="button-area">
+      <button id="blue-btn">←청기</button>
+      <button id="white-btn">백기 →</button>
+    </div>
+  </div>
+</div>
+
+<script src="flag_game.js"></script>
+
 </body>
 </html>
