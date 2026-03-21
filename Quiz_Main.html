@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P-Log</title>
+    <link rel="icon" href="/image/pico_icon.jpg">
+    <link rel="stylesheet" href="Quiz_CSS.css">
+</head>
+<body>
+    <div id="container">  
+        <img id="background" src="./image/background.png" alt="background"> 
+            
+        <div id="screen">
+            <div id="difficulty-screen">
+                <h2 style="margin-bottom: 20px;">난이도 선택</h2>
+                <button class="diff-btn" onclick="startGame('easy')">쉬움</button>
+                <button class="diff-btn" onclick="startGame('medium')">조금 어려움</button>
+                <button class="diff-btn" onclick="startGame('hard')">어려움</button>
+            </div>
+            <div id="quiz-screen" style="display: none;">
+                <div id="first">
+                    <div id="text1">
+                        문제: 광명융합기술교육원의 위치는?
+                    </div>
+                    <div id="text2">
+                        <div id="qt1">1번:</div>
+                        <div id="qt2">2번:</div>
+                        <div id="qt3">3번:</div>
+                        <div id="qt4">4번:</div>
+                    </div>
+                </div>
+                <div id="second">
+                    <img src="image/삐코_물음표.jpg">
+                </div> 
+            </div>        
+        </div>
+    </div>
+    <script src="Quiz_js.js"></script>
+</body>
+</html>
