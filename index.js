@@ -195,14 +195,27 @@ function drawHealth(){
 
 //level 게이지
 function drawLevel(){
-    const level = parseInt(localStorage.getItem("level"));
+    const levelGage = parseInt(localStorage.getItem("level"));
+    const gage = document.getElementById("gage").firstElementChild;
 
-    if(level >= 120){
+    const gageNum = document.getElementById("gageNum").firstElementChild;
+    gageNum.innerText = `${levelGage}/120`
+    if(levelGage === 120){
         main.src = state[7].src;
 
         setTimeout(() => {
             ending();
         }, state[7].time);
+    }else if(levelGage === 0){
+        gage.src = level[0].src;
+    }else if(levelGage > 0 && levelGage <= 30){
+        gage.src = level[1].src;
+    }else if(levelGage > 30 && levelGage <= 60){
+        gage.src = level[2].src
+    }else if(levelGage > 60 && levelGage <= 90){
+        gage.src = level[3].src;
+    }else if(levelGage > 90 && levelGage < 120){
+        gage.src = level[4].src;
     }
 }
 
@@ -279,6 +292,7 @@ document.addEventListener("keydown", (e) => {
 
     //console.log(e.key);
 
+    //키보드 이벤트
     if(e.key === "ArrowRight"){
         if(toilet.classList.contains("check")){
             toilet.classList.remove("check")
@@ -302,17 +316,20 @@ document.addEventListener("keydown", (e) => {
             toilet.classList.remove("check");
             game.classList.add("check");
         }
-    }else if(e.key === "ArrowDown"){
-        //console.log("하측");
-        if(game.classList.contains("check")){
-            console.log("game 선택");
-        }else if(toilet.classList.contains("check")){
-            console.log("toilet 선택");
-        }else if(food.classList.contains("check")){
-            console.log("food 선택");
-        }
     }
+    // }else if(e.key === "ArrowDown"){
+    //     //console.log("하측");
+    //     if(game.classList.contains("check")){
+    //         console.log("game 선택");
+    //     }else if(toilet.classList.contains("check")){
+    //         console.log("toilet 선택");
+    //     }else if(food.classList.contains("check")){
+    //         console.log("food 선택");
+    //     }
+    // }
 
+
+    //행동에 대한 키보드 이벤트
     let checkState = document.querySelectorAll(".check");
     console.log("select 이벤트!")
     if(e.key === "ArrowDown"){
