@@ -26,15 +26,16 @@ body{
     width: 423px;
     height: 373px;
     border: 1px solid black;
-    border-radius: 16.5px;
+    border-radius: 16px;
     background: #f3f3f3;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 #top-bar{
     height: 14%;
-    background: lightblue;
+    background: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -56,8 +57,7 @@ body{
     align-items: center;
     font-size: 24px;
     background: #ffffff;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+ 
 }
 
 #timer{
@@ -66,8 +66,9 @@ body{
     justify-content: center;
     align-items: center;
     font-size: 22px;
-    background: lightblue;
-    border-bottom: 1px solid black;
+    background:white;
+
+    
 }
 
 #game-area{
@@ -76,23 +77,13 @@ body{
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background: rgb(255, 255, 255);
+    background: white;
 }
 
 #pico{
     width: 100%;
     height: 100%;
     object-fit: contain;
-}
-
-#result{
-    height: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    background: #ffffff;
-    border-top: 1px solid black;
 }
 
 #button-area{
