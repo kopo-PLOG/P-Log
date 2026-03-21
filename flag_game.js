@@ -1,5 +1,3 @@
-flag_game.js
-
 const totalRounds = 10;
 const answerTime = 3000;
 
@@ -23,8 +21,9 @@ const problems = [
     { text: '청기는 들지 말고 백기만 들어!', answer: 'white' },
     { text: '백기는 들지 말고 청기만 들어!', answer: 'blue' },
 ];
-
+//문제 섞기
 let shuffledProblems = [];
+
 let problemIndex = 0;
 
 const roundEl = document.getElementById('round');
@@ -32,23 +31,26 @@ const scoreEl = document.getElementById('score');
 const commandEl = document.getElementById('command');
 const timerEl = document.getElementById('timer');
 const picoEl = document.getElementById('pico');
+const blueBtn = document.getElementById('blue-btn');
+const whiteBtn = document.getElementById('white-btn');
 
 const READY_IMAGE = './image/flag/삐코_청기백기2.jpg';
 const BLUE_IMAGE = './image/flag/blue_up.jpg';
 const WHITE_IMAGE = './image/flag/white_up.jpg';
 
-//문제 진행 사항
+//상단문제 및 점수 업데이트
 function updateTopBar() {
     roundEl.textContent = `${currentRound}/${totalRounds}`;
     scoreEl.textContent = score;
 }
 
-//타이머
+//타이머,중복방지
 function clearTimers() {
     clearTimeout(questionTimeout);
     clearInterval(countdownInterval);
 }
 
+//문제 랜덤
 function shuffleArray(array) {
     const copied = [...array];
     for (let i = copied.length - 1; i > 0; i--) {
@@ -63,12 +65,13 @@ function resetProblemQueue() {
     problemIndex = 0;
 }
 
+//준비상태
 function setReadyState() {
     picoEl.src = READY_IMAGE;
     commandEl.textContent = '준비!';
     inputLocked = true;
 }
-
+//시작전 카운트
 function startIntroCountdown() {
     setReadyState();
 
@@ -89,7 +92,7 @@ function startIntroCountdown() {
     }, 1000);
 }
 
-
+//문제 세팅
 function setNewProblem() {
     if (problemIndex >= shuffledProblems.length) {
         resetProblemQueue();
@@ -105,6 +108,7 @@ function setNewProblem() {
     startQuestionTimer();
 }
 
+//문제 타이머
 function startQuestionTimer() {
     let remaining = Math.ceil(answerTime / 1000); // 3,2,1
     timerEl.textContent = remaining;
@@ -118,12 +122,12 @@ function startQuestionTimer() {
             timerEl.textContent = '';
         }
     }, 1000);
-
+    //시간초과 처리
     questionTimeout = setTimeout(() => {
         handleTimeout();
     }, answerTime);
 }
-
+//시간초과
 function handleTimeout() {
     if (gameOver || inputLocked) return;
 
@@ -167,6 +171,7 @@ function nextRound() {
     setNewProblem();
 }
 
+//정답체크
 function checkAnswer(userInput) {
     if (gameOver || inputLocked) return;
 
@@ -177,9 +182,9 @@ function checkAnswer(userInput) {
 
     if (userInput === currentAnswer) {
         score++;
-        resultEl.textContent = '정답';
+        commandEl.textContent = '정답';
     } else {
-        resultEl.textContent = '오답';
+        commandEl.textContent = '오답';
     }
 
     updateTopBar();
@@ -193,6 +198,7 @@ function checkAnswer(userInput) {
     }, 500);
 }
 
+//키보드 입력
 document.addEventListener('keydown', (event) => {
     if (gameOver || inputLocked) return;
 
@@ -202,6 +208,15 @@ document.addEventListener('keydown', (event) => {
         checkAnswer('white');
     }
 });
+
+blueBtn.addEventListener('click', () => {
+    checkAnswer('blue');
+});
+
+whiteBtn.addEventListener('click', () => {
+    checkAnswer('white');
+});
+
 
 resetProblemQueue();
 updateTopBar();
