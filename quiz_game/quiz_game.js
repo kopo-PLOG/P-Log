@@ -154,23 +154,8 @@ document.addEventListener('keydown', (e) => {
 
     // 2. 게임 종료 상태일 때
     if (isGameOver) {
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-            currentSelectionIndex = currentSelectionIndex === 0 ? 1 : 0;
-            updateSelectionUI();
-        } else if (e.key === 'ArrowDown') {
-            if (currentSelectionIndex === 0) {
-                // '예' 선택 시: 난이도 선택 화면으로 복귀
-                isGameOver = false;
-                isGameStarted = false;
-                quizScreen.style.display = 'none';
-                diffScreen.style.display = 'flex';
-                
-                currentDiffIndex = 0;
-                updateDiffSelectionUI();
-            } else {
-                // '아니오' 선택 시
-                window.location.href = ""; 
-            }
+        if (e.key === 'ArrowDown'){
+            window.location.href = "../main/main.html"
         }
         return; 
     }
@@ -223,7 +208,7 @@ function showEndScreen() {
 
     screenEl.classList.remove('blink-blue', 'blink-red');
 
-    text1.innerHTML = `10문제 중 ${score}문제 정답!<br><br>다시 하시겠습니까?`;
+    text1.innerHTML = `10문제 중 ${score}문제 정답!`;
     
     if (score >= 7) {
         characterImg.src = '../image/삐코_환호.png';
@@ -233,11 +218,15 @@ function showEndScreen() {
         characterImg.classList.add('shrink-image'); 
     }
 
+    qts[1].style.display = 'none';
     qts[2].style.display = 'none';
     qts[3].style.display = 'none';
 
-    qts[0].innerText = "예";
-    qts[1].innerText = "아니오";
+    qts[0].innerText = "게임종료";
+
+    qts[0].style.top = '50%';
+    qts[0].style.left = '50%';
+    qts[0].style.transform = 'translate(-50%, -50%)';
 
     currentSelectionIndex = 0; 
     updateSelectionUI();
