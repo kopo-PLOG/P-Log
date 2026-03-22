@@ -6,6 +6,8 @@ let score = 0;
 let currentAnswer = '';
 let gameOver = false;
 let inputLocked = true;
+let isEnding = false;
+
 let questionTimeout = null;
 let countdownInterval = null;
 
@@ -37,6 +39,8 @@ const whiteBtn = document.getElementById('white-btn');
 const READY_IMAGE = './image/flag/삐코_청기백기2.jpg';
 const BLUE_IMAGE = './image/flag/blue_up.jpg';
 const WHITE_IMAGE = './image/flag/white_up.jpg';
+const HAPPY_IMAGE = './image/삐코_환호.png';
+const SAD_IMAGE = './image/삐코_머쓱.png';
 
 //상단문제 및 점수 업데이트
 function updateTopBar() {
@@ -73,6 +77,8 @@ function setReadyState() {
 }
 //시작전 카운트
 function startIntroCountdown() {
+    clearTimers();
+
     setReadyState();
 
     let count = 3;
@@ -105,6 +111,13 @@ function setNewProblem() {
     commandEl.textContent = selected.text;
     inputLocked = false;
 
+    picoEl.src = READY_IMAGE;
+    blueBtn.textContent = '←청기';
+    whiteBtn.textContent = '백기 →';
+    blueBtn.disabled = false;
+    whiteBtn.disabled = false;
+
+
     startQuestionTimer();
 }
 
@@ -122,6 +135,8 @@ function startQuestionTimer() {
             timerEl.textContent = '';
         }
     }, 1000);
+
+
     //시간초과 처리
     questionTimeout = setTimeout(() => {
         handleTimeout();
@@ -132,7 +147,7 @@ function handleTimeout() {
     if (gameOver || inputLocked) return;
 
     inputLocked = true;
-    resultEl.textContent = '시간 초과!';
+    commandEl.textContent = '시간 초과!';
     picoEl.src = READY_IMAGE;
 
     setTimeout(() => {
@@ -140,14 +155,6 @@ function handleTimeout() {
     }, 500);
 }
 
-function endGame() {
-    gameOver = true;
-    clearTimers();
-    commandEl.textContent = '게임 종료!';
-    timerEl.textContent = '';
-    picoEl.src = READY_IMAGE;
-    inputLocked = true;
-}
 
 function showRaisedFlag(userInput) {
     if (userInput === 'blue') {
@@ -157,19 +164,6 @@ function showRaisedFlag(userInput) {
     }
 }
 
-function nextRound() {
-    clearTimers();
-
-    if (currentRound >= totalRounds) {
-        endGame();
-        return;
-    }
-
-    currentRound++;
-    updateTopBar();
-    picoEl.src = READY_IMAGE;
-    setNewProblem();
-}
 
 //정답체크
 function checkAnswer(userInput) {
@@ -190,16 +184,90 @@ function checkAnswer(userInput) {
     updateTopBar();
 
     setTimeout(() => {
-        picoEl.src = READY_IMAGE;
-    }, 250);
-
-    setTimeout(() => {
         nextRound();
     }, 500);
 }
+function nextRound() {
+    clearTimers();
+
+    if (currentRound >= totalRounds) {
+        showEndScreen();
+        return;
+    }
+
+    currentRound++;
+    updateTopBar();
+    setNewProblem();
+}
+function showEndScreen() {
+    gameOver = true;
+    isEnding = true;
+    inputLocked = true;
+    clearTimers();
+
+    timerEl.textContent = '';
+
+    commandEl.innerHTML = `${totalRounds}문제 중 ${score}문제 정답!<br>다시 하시겠습니까?`;
+
+    if (score >= 7) {
+        picoEl.src = HAPPY_IMAGE;
+    } else {
+        picoEl.src = SAD_IMAGE;
+    }
+
+    blueBtn.textContent = '예';
+    whiteBtn.textContent = '아니오';
+    blueBtn.disabled = false;
+    whiteBtn.disabled = false;
+}
+function restartGame() {
+    clearTimers();
+
+    currentRound = 1;
+    score = 0;
+    currentAnswer = '';
+    gameOver = false;
+    inputLocked = true;
+    isEnding = false;
+
+    resetProblemQueue();
+    updateTopBar();
+
+    blueBtn.textContent = '←청기';
+    whiteBtn.textContent = '백기 →';
+    blueBtn.disabled = false;
+    whiteBtn.disabled = false;
+
+    startIntroCountdown();
+}
+function handleEndingChoice(choice) {
+    if (!isEnding) return;
+
+    if (choice === 'yes') {
+        restartGame();
+    } else {
+        // 필요하면 메인 페이지로 이동
+        // window.location.href = 'index.html';
+
+        commandEl.innerHTML = `게임을 종료했어요!<br>수고했어요 :)`;
+        timerEl.textContent = '';
+        blueBtn.disabled = true;
+        whiteBtn.disabled = true;
+    }
+}
+
 
 //키보드 입력
 document.addEventListener('keydown', (event) => {
+    if (isEnding) {
+        if (event.key === 'ArrowLeft') {
+            handleEndingChoice('yes');
+        } else if (event.key === 'ArrowRight') {
+            handleEndingChoice('no');
+        }
+        return;
+    }
+
     if (gameOver || inputLocked) return;
 
     if (event.key === 'ArrowLeft') {
@@ -210,10 +278,18 @@ document.addEventListener('keydown', (event) => {
 });
 
 blueBtn.addEventListener('click', () => {
+    if (isEnding) {
+        handleEndingChoice('yes');
+        return;
+    }
     checkAnswer('blue');
 });
 
 whiteBtn.addEventListener('click', () => {
+    if (isEnding) {
+        handleEndingChoice('no');
+        return;
+    }
     checkAnswer('white');
 });
 
