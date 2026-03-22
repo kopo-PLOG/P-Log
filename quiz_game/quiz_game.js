@@ -209,14 +209,27 @@ function showEndScreen() {
     screenEl.classList.remove('blink-blue', 'blink-red');
 
     text1.innerHTML = `10문제 중 ${score}문제 정답!`;
-    
+
+    let currentLevel = parseInt(localStorage.getItem("level"));
+
+    if (isNaN(currentLevel)) {
+        currentLevel = 0;
+    }
+
     if (score >= 7) {
+        currentLevel += 10;
         characterImg.src = '../image/삐코_환호.png';
         characterImg.classList.remove('shrink-image');
     } else {
+        currentLevel -= 5;
         characterImg.src = '../image/삐코_머쓱.png';
         characterImg.classList.add('shrink-image'); 
     }
+
+    if (currentLevel < 0) currentLevel = 0;      
+    if (currentLevel > 120) currentLevel = 120;
+
+    localStorage.setItem("level", currentLevel);
 
     qts[1].style.display = 'none';
     qts[2].style.display = 'none';
