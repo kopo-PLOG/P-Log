@@ -162,10 +162,17 @@ let rightState = 0;
 //현재가 요구사항이 있는 상황인지 아닌지 저장
 let currentState = "";
 
+//지금 진화 과정인지 아닌지 확인
+let changingState = false;
+
+//진화까지 다 끝나면 아예 동작 못하게 막기
+let done = false;
+
 const levelNum = parseInt(localStorage.getItem("level"));
+const healthNum = parseInt(localStorage.getItem("health"));
 
 ////start
-if(levelNum != 120){
+if(!(levelNum >= 120 && healthNum > 40)){
     startBase();
 }
 
@@ -233,14 +240,24 @@ function drawLevel(){
     gageNum.innerText = `${levelGage}/120`
 
     //health + levelGage로 할까말까
-    if(levelGage === 120 && healthGage > 40){
+    if(levelGage >= 120 && healthGage > 40){
 
         gage.src = level[4].src;
         main.src = state[7].src;
 
         setTimeout(() => {
-            ending();
+            clearTimeout(angryTimer);
+            const second = document.getElementById("second");
+            changingState = true;
+            second.innerHTML = `<div id="select_area">
+                        <div id="select_text"><span>피코에게 무슨 변화가 일어나는 것 같습니다!</span></div>
+                        <div id="select_select">
+                            <span>▶진행하기</span>
+                        </div>
+                    </div>`
+
         }, state[7].time);
+
     }else if(levelGage === 0){
         gage.src = level[0].src;
     }else if(levelGage > 0 && levelGage <= 30){
@@ -263,8 +280,10 @@ function startBase(){
     currentState = "normal";
 
     if(gage <= 40){
+        console.log("탈진")
         main.src = state[8].src;
     }else{
+        console.log("탈진")
         main.src = state[0].src;
     }
 
@@ -324,125 +343,181 @@ function getAngry(){
 
 
 document.addEventListener("keydown", (e) => {
-    const game = document.getElementById("game");
-    const toilet = document.getElementById("toilet");
-    const food = document.getElementById("food");
 
-    //console.log(e.key);
-    //키보드 이벤트
-    if(e.key === "ArrowRight"){
-        if(toilet.classList.contains("check")){
-            toilet.classList.remove("check")
-            food.classList.add("check");
-        }else if(food.classList.contains("check")){
-            food.classList.remove("check");
-            game.classList.add("check")
-        }else if(game.classList.contains("check")){
-            game.classList.remove("check");
-            toilet.classList.add("check");
-        }
-    }else if(e.key === "ArrowLeft"){
-        //console.log("좌측");
-        if(game.classList.contains("check")){
-            game.classList.remove("check");
-            food.classList.add("check")
-        }else if(food.classList.contains("check")){
-            food.classList.remove("check");
-            toilet.classList.add("check");
-        }else if(toilet.classList.contains("check")){
-            toilet.classList.remove("check");
-            game.classList.add("check");
-        }
-    }
+    if(!changingState && !done){
+        const game = document.getElementById("game");
+        const toilet = document.getElementById("toilet");
+        const food = document.getElementById("food");
 
+        //console.log(e.key);
+        //키보드 이벤트
+        if(e.key === "ArrowRight"){
+            if(toilet.classList.contains("check")){
+                toilet.classList.remove("check")
+                food.classList.add("check");
+            }else if(food.classList.contains("check")){
+                food.classList.remove("check");
+                game.classList.add("check")
+            }else if(game.classList.contains("check")){
+                game.classList.remove("check");
+                toilet.classList.add("check");
+            }
+        }else if(e.key === "ArrowLeft"){
+            //console.log("좌측");
+            if(game.classList.contains("check")){
+                game.classList.remove("check");
+                food.classList.add("check")
+            }else if(food.classList.contains("check")){
+                food.classList.remove("check");
+                toilet.classList.add("check");
+            }else if(toilet.classList.contains("check")){
+                toilet.classList.remove("check");
+                game.classList.add("check");
+            }
+        }else if(e.key === "ArrowDown"){
+            let checkState = document.querySelectorAll(".check");
+            console.log("select 이벤트!")
 
+            if(rightState == 1 | wrongState == 1 || wonderTimer) return;
 
-    //행동에 대한 키보드 이벤트
-    let checkState = document.querySelectorAll(".check");
-    console.log("select 이벤트!")
-    if(rightState == 1 | wrongState == 1 || wonderTimer) return;
-
-    if(e.key === "ArrowDown"){
-        console.log("select 이벤트! ArrowDown")
-
-        console.log(checkState[0].id);
-        console.log(state[randomState].id);
-        console.log(currentState);
-
-        if(currentState === "normal" && checkState[0].id != "game"){
-            console.log("wonder!")
-            if(wonderTimer) return;
-            //예약된 setTimeout() 함수 취소
-            clearTimeout(angryTimer);
-            //clearTimeout(baseTimer);
-            angryTimer = null;
-
-            main.src = state[9].src;
-
-            wonderTimer = setTimeout(() => {
-                wonderTimer = null;
-                startBase();
-            }, state[9].time);
-
-        }else if(currentState === "normal" && checkState[0].id === "game"){
-            console.log("game");
             
-            location.href = "../game_list/game_list.html"
+            console.log("select 이벤트! ArrowDown")
 
-        }else if(checkState[0].id === state[randomState].id){
+            console.log(checkState[0].id);
+            console.log(state[randomState].id);
+            console.log(currentState);
 
-
-            //요구에 맞는 행동 선택
-            if(angryTimer){
-                console.log("게임 클릭!!! 휴 ");
-                //클릭시 health +10
-                if(parseInt(localStorage.getItem("health")) < 160){
-                    localStorage.setItem("health", parseInt(localStorage.getItem("health")) + 10);
-                }
-
-                drawHealth();
-                
+            
+            if(currentState === "normal" && checkState[0].id != "game"){
+                console.log("wonder!")
+                if(wonderTimer) return;
                 //예약된 setTimeout() 함수 취소
                 clearTimeout(angryTimer);
                 //clearTimeout(baseTimer);
-                angryTimer = "";
+                angryTimer = null;
 
-                main.src = state[5].src;
-                
-                rightState = 1;
+                main.src = state[9].src;
 
+                wonderTimer = setTimeout(() => {
+                    wonderTimer = null;
+                    startBase();
+                }, state[9].time);
+
+            }else if(currentState === "normal" && checkState[0].id === "game"){
+                console.log("game");
                 
-                setTimeout(() => {
-                    if(checkState[0].id === "game"){
-                        location.href = "../game_list/game_list.html"
-                    }else{
-                        startBase();
+                location.href = "../game_list/game_list.html"
+
+            }else if(checkState[0].id === state[randomState].id){
+
+
+                //요구에 맞는 행동 선택
+                if(angryTimer){
+                    console.log("게임 클릭!!! 휴 ");
+                    //클릭시 health +10
+                    if(parseInt(localStorage.getItem("health")) < 160){
+                        localStorage.setItem("health", parseInt(localStorage.getItem("health")) + 10);
                     }
-                }, state[5].time);
-                
-                
-            }
-        }else{
 
-            // //요구에 잘못된 행동 선택
-            console.log("잘못 선택했습니다!!!")
+                    drawHealth();
+                    
+                    //예약된 setTimeout() 함수 취소
+                    clearTimeout(angryTimer);
+                    //clearTimeout(baseTimer);
+                    angryTimer = "";
+
+                    main.src = state[5].src;
+                    
+                    rightState = 1;
+
+                    
+                    setTimeout(() => {
+                        if(checkState[0].id === "game"){
+                            location.href = "../game_list/game_list.html"
+                        }else{
+                            startBase();
+                        }
+                    }, state[5].time);
+                    
+                    
+                }
+            }else{
+
+                // //요구에 잘못된 행동 선택
+                console.log("잘못 선택했습니다!!!")
+                
+                clearTimeout(angryTimer);
+                angryTimer = "";
+                wrongState = 1;
+                getAngry();
+            }
+        }
+    }else if(changingState && !done && e.key === "ArrowDown"){
+        const select_select = document.getElementById("select_select");
+
+        select_select.style = "color: red";
+        const second = document.getElementById("second");
+        setTimeout(() => {
+            //console.log("!!!!!!!red!!!!!!!");
+            second.innerHTML = `<img src="../image/indexImg/pico_adult.gif" alt="피코 닭 버전">`
+            done = true;
+            ending();
+        }, 300);
+    }else if(done){
+        // const last_check = document.querySelectorAll(".last_check");
+        // const select_yes = document.getElementById("select_yes");
+        // const select_no = document.getElementById("select_no");
+
+        if(e.key === "ArrowRight" || e.key === "ArrowLeft"){
+            console.log("!!!!!!!!!!!!!!!!!!!!!선태개애애애앵");
+            const last_check = document.querySelectorAll(".last_check");
+            const select_yes = document.getElementById("select_yes");
+            const select_no = document.getElementById("select_no");
+
+            if(last_check[0].id === "select_yes"){
+                select_yes.classList.remove("last_check");
+                select_yes.firstElementChild.innerText = ""
+                select_no.firstElementChild.innerText = "▶"
+                select_no.classList.add("last_check");
+            }else{
+                select_no.classList.remove("last_check");
+                select_no.firstElementChild.innerText = ""
+                select_yes.firstElementChild.innerText = "▶"
+                select_yes.classList.add("last_check");
+            }
+        }else if(e.key === "ArrowDown"){
+            const last_check = document.querySelectorAll(".last_check");
             
-            clearTimeout(angryTimer);
-            angryTimer = "";
-            wrongState = 1;
-            getAngry();
+            console.log("!!!!!!!!!!!!!!!!!!!!!yese");
+            if(last_check[0].id === "select_yes"){
+                location.href = "../index.html";
+            }else{
+                location.href = "ending.html";
+            }
         }
     }
-    
-    
 })
-
+    
 
 //////////// 엔딩 ///////////////
 function ending(){
-    main.src = state[6].src;
-
+    
     setTimeout(() => {
-
+        const second = document.getElementById("second");
+        changingState = true;
+        second.innerHTML = `<div id="select_area">
+                        <div id="last_select"><span>피코가 멋있는 닭이 되었습니다! <br> 게임을 다시 하시겠습니까?</span></div>
+                        <div id="select_box">
+                            <div id="select_yes" class="last_check">
+                                <div class="arrowSelect" >▶</div>
+                                <div class="answer"><span>예</span></div>
+                            </div>
+                            <div id="select_no">
+                                <div class="arrowSelect"></div>
+                                <div class="answer"><span>아니요</span></div>
+                            </div>
+                        </div>
+                        
+                    </div>`
     }, state[6].time);
 }
