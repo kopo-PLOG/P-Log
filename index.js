@@ -326,10 +326,13 @@ function getAngry(){
 }
 
 function gameList(){
+    
+    gameListState = 1;
+
     const screen = document.getElementById("screen")
     screen.innerHTML = `<div id="gameList">
                     <div id="list_title">
-                        <span >게임 리스트</span>
+                        <span>🎮게임 리스트🎮</span>
                     </div>
                     <div id="list_list">
                         <div id="list_inner">
@@ -362,6 +365,7 @@ document.addEventListener("keydown", (e) => {
     const food = document.getElementById("food");
 
     //console.log(e.key);
+    
     if(gameListState == 0){
             //키보드 이벤트
         if(e.key === "ArrowRight"){
@@ -420,7 +424,7 @@ document.addEventListener("keydown", (e) => {
 
             }else if(currentState === "normal" && checkState[0].id === "game"){
                 console.log("game");
-                gameListState = 1;
+                
                 gameList();
 
             }else if(checkState[0].id === state[randomState].id){
@@ -444,8 +448,14 @@ document.addEventListener("keydown", (e) => {
                     main.src = state[5].src;
                     
                     rightState = 1;
+
+                    
                     setTimeout(() => {
-                        startBase();
+                        if(checkState[0].id === "game"){
+                            gameList();
+                        }else{
+                            startBase();
+                        }
                     }, state[5].time);
                     
                     
@@ -462,6 +472,7 @@ document.addEventListener("keydown", (e) => {
             }
         }
     }else if(gameListState == 1){
+        //게임 리스트에 들어갔을 때 키보드 이벤트
         const flag = document.getElementById("flag");
         const memorizing = document.getElementById("memorizing");
         const quiz = document.getElementById("quiz");
@@ -509,11 +520,23 @@ document.addEventListener("keydown", (e) => {
             }else if(exit.classList.contains("game_check")){
                 exit.classList.remove("game_check");
                 exit.firstElementChild.innerHTML = "";
-                flag.classList.add("game_check");
-                flag.firstElementChild.innerHTML="▶";
+                quiz.classList.add("game_check");
+                quiz.firstElementChild.innerHTML="▶";
             }
         }else if(e.key === "ArrowDown"){
+            const game_check = document.querySelectorAll(".game_check");
 
+            if(game_check[0].id === "flag"){
+                location.href = "flag_game.html";
+            }else if(game_check[0].id === "memorizing"){
+                location.href = "memorization.html";
+            }else if(game_check[0].id === "quiz"){
+                location.href = "Quiz_Main.html";
+            }else if(game_check[0].id === "exit"){
+                const screen = document.getElementById("screen");
+                location.href = "index.html";
+                startBase();
+            }
         }
     }
     
