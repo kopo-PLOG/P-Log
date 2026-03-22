@@ -165,6 +165,9 @@ let currentState = "";
 //지금 진화 과정인지 아닌지 확인
 let changingState = false;
 
+//키보드 이벤트 막기용 flag
+let cantKey = false;
+
 //진화까지 다 끝나면 아예 동작 못하게 막기
 let done = false;
 
@@ -243,7 +246,7 @@ function drawLevel(){
     if(levelGage >= 120 && healthGage > 40){
 
         //진화하는 과정중 표시
-        changingState = true;
+        cantKey = true;
 
         gage.src = level[4].src;
         main.src = state[7].src;
@@ -347,7 +350,7 @@ function getAngry(){
 
 document.addEventListener("keydown", (e) => {
 
-    if(!changingState && !done){
+    if(!changingState && !done && !cantKey){
         const game = document.getElementById("game");
         const toilet = document.getElementById("toilet");
         const food = document.getElementById("food");
