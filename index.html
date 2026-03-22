@@ -3,73 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P-LOG</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="/image/pico_icon.jpg">
+    <title>P-Log</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="common/controls_guide.css">
+    <link rel="icon" href="./image/pico_icon.jpg"> <!--파비콘-->
 </head>
 <body>
     <div id="container">  
-      
-            <img id="background" src="./image/background.png" alt="background"> 
-            
-            <div id="screen">
-                <div id="first">
-                    <div id="health">
-                        <div id="health_area" style="display: flex; margin-top: 5px;">
-                            <div class="health_sec1"><span>Health</span></div>
-                            <div class="health_sec2">
-                                <div class="heart" id="heart1"><img src="/image/indexImg/heart_1.png" alt=""></div>
-                                <div class="heart" id="heart2"><img src="/image/indexImg/heart_1.png" alt=""></div>
-                                <div class="heart" id="heart3"><img src="/image/indexImg/heart_1.png" alt=""></div>
-                                <div class="heart" id="heart4"><img src="/image/indexImg/heart_1.png" alt=""></div>
-                            </div>
-                        </div>
-                        <div id="health_level" style="display: flex;">
-                            <div class="health_sec1"><span>Level</span></div>
-                            <div class="health_sec2">
-                                <div id="gage">
-                                    <img src="image/indexImg/gage_1.png" alt="">
-                                </div>
-                                <div id="gageNum">
-                                    <span>0/120</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    
-                    <div id="game" class="check">
-                        <div>
-                            <img src="/image/indexImg/game.png" alt="">
-                        </div>
-                    </div>
-                </div>
-
-                <div id="second">
-                    <img id="mainImg" src="image/indexImg/pico_base.gif">
-                </div>
-
-                <div id="third">
-                    <div id="toilet">
-                        <div>
-                            <img src="/image/indexImg/toilet_3.png" alt="">
-                        </div>
-                    </div>
-                    <div id="comment">
-                        <div>
-                            <!-- <img src="/image/indexImg/comment_box_1.png" alt=""> -->
-                             <!-- 시간이 남을 때 멘트 하기 -->
-                        </div>
-                    </div>
-                    <div id="food">
-                        <div>
-                            <img src="/image/indexImg/food_2.png" alt="">
-                        </div>
-                    </div>
-                </div>
+        <img id="background" src="./image/background.png" alt="background"> 
+        
+        <div id="screen">
+            <div id="start-screen">
+                <h1 id="title">P-LOG</h1>
+                <button id="start-btn">게임시작</button>
+                <p id="instruction">마우스로 게임시작을 클릭해주세요!</p>
             </div>
-       
+        </div>
+
+        <div id="controls-guide">
+            <h3>⭐ 조작 방법 ⭐</h3>
+            <ul>
+                <li><span class="key">←</span> 왼쪽 이동</li>
+                <li><span class="key">→</span> 오른쪽 이동</li>
+                <li><span class="key">↓</span> 선택</li>
+            </ul>
+        </div>
     </div>
-    <script src="/index.js"></script>
+
+    
+
+    <script>
+        function startGame() {
+           window.location.href = "index.html";
+        }
+
+        
+        document.getElementById('start-btn').addEventListener('click', function() {
+            startGame(); //게임시작 클릭하면 index.html로 넘어가는 startGame함수 실행
+        });
+    </script>
 </body>
 </html>
