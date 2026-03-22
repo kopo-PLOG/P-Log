@@ -493,7 +493,8 @@ document.addEventListener("keydown", (e) => {
             }
         }else if(e.key === "ArrowDown"){
             const last_check = document.querySelectorAll(".last_check");
-            
+            localStorage.setItem("health", 80);
+            localStorage.setItem("level", 0);
             console.log("!!!!!!!!!!!!!!!!!!!!!yese");
             if(last_check[0].id === "select_yes"){
                 location.href = "../index.html";
