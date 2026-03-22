@@ -49,7 +49,7 @@ let isGameStarted = false;
 
 // 난이도 관련 변수
 let currentDiffIndex = 0; 
-const diffLevels = ['easy', 'medium', 'hard'];
+const diffLevels = ['easy', 'medium', 'hard', 'back'];
 
 
 // DOM 요소 가져오기
@@ -70,11 +70,15 @@ const diffButtons = document.querySelectorAll('.diff-btn');
 function updateDiffSelectionUI() {
     diffButtons.forEach((btn, index) => {
         if (index === currentDiffIndex) {
-            btn.style.backgroundColor = 'lightblue';
+            if(index === 3){
+                btn.style.backgroundColor = '#e0e0e0';
+            }else{
+                btn.style.backgroundColor = 'lightblue';
+            }
         } else {
             btn.style.backgroundColor = 'white';
-        }
-    });
+            }
+        });
 }
 
 // 화면이 처음 로드될 때 난이도 버튼 초기화
@@ -133,13 +137,17 @@ document.addEventListener('keydown', (e) => {
     // 1. 난이도 선택 화면일 때
     if (!isGameStarted) {
         if (e.key === 'ArrowLeft') {
-            currentDiffIndex = (currentDiffIndex - 1 + 3) % 3;
+            currentDiffIndex = (currentDiffIndex - 1 + diffLevels.length) % diffLevels.length;
             updateDiffSelectionUI();
         } else if (e.key === 'ArrowRight') {
-            currentDiffIndex = (currentDiffIndex + 1) % 3;
+            currentDiffIndex = (currentDiffIndex + 1) % diffLevels.length;
             updateDiffSelectionUI();
         } else if (e.key === 'ArrowDown') {
+            if (diffLevels[currentDiffIndex]==='back'){
+                goBack();
+            }else{
             startGame(diffLevels[currentDiffIndex]);
+            }
         }
         return; 
     }
@@ -235,3 +243,7 @@ function showEndScreen() {
     updateSelectionUI();
 }
 
+
+function goBack() {
+    window.location.href = "../game_list/game_list.html";
+}
