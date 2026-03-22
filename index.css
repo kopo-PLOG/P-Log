@@ -76,7 +76,7 @@ body {
 }
 
 /* 버튼 애니메이션 */
-#start-btn:active {
+#start-btn.active-key {
     transform: translate(2px, 2px);
     box-shadow: 0px 0px 0px #333;
 }

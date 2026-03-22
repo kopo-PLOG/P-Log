@@ -51,6 +51,7 @@ let isGameStarted = false;
 let currentDiffIndex = 0; 
 const diffLevels = ['easy', 'medium', 'hard'];
 
+
 // DOM 요소 가져오기
 const diffScreen = document.getElementById('difficulty-screen');
 const quizScreen = document.getElementById('quiz-screen');
@@ -106,7 +107,7 @@ function loadQuestion() {
     
     currentSelectionIndex = 0; 
     updateSelectionUI();
-    characterImg.src = 'image/삐코_물음표.jpg';
+    characterImg.src = '../image/삐코_물음표.jpg';
     characterImg.classList.remove('shrink-image');
 
     screenEl.classList.remove('blink-blue', 'blink-red'); 
@@ -129,7 +130,7 @@ function updateSelectionUI() {
 document.addEventListener('keydown', (e) => {
     if (isAnimating) return; 
 
-    // [1. 난이도 선택 화면일 때]
+    // 1. 난이도 선택 화면일 때
     if (!isGameStarted) {
         if (e.key === 'ArrowLeft') {
             currentDiffIndex = (currentDiffIndex - 1 + 3) % 3;
@@ -143,14 +144,14 @@ document.addEventListener('keydown', (e) => {
         return; 
     }
 
-    // [2. 게임 종료 상태일 때]
+    // 2. 게임 종료 상태일 때
     if (isGameOver) {
         if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
             currentSelectionIndex = currentSelectionIndex === 0 ? 1 : 0;
             updateSelectionUI();
         } else if (e.key === 'ArrowDown') {
             if (currentSelectionIndex === 0) {
-                // '예' 선택 시: 난이도 선택 화면으로 복귀하도록 수정
+                // '예' 선택 시: 난이도 선택 화면으로 복귀
                 isGameOver = false;
                 isGameStarted = false;
                 quizScreen.style.display = 'none';
@@ -166,7 +167,7 @@ document.addEventListener('keydown', (e) => {
         return; 
     }
 
-    // [3. 문제 풀이 중일 때]
+    // 3. 문제 풀이 중일 때
     if (e.key === 'ArrowLeft') {
         currentSelectionIndex = (currentSelectionIndex - 1 + 4) % 4;
         updateSelectionUI();
@@ -188,12 +189,11 @@ function checkAnswer() {
 
     if (currentSelectionIndex === currentQ.ans) {
         score++;
-        // 기존 제공해주신 파일명이 .jpg 인지 .png 인지 확인 후 맞춰주세요 (임시로 png로 둠)
-        characterImg.src = 'image/삐코_O.png'; 
+        characterImg.src = '../image/삐코_O.png'; 
         characterImg.classList.remove('shrink-image');
         screenEl.classList.add('blink-blue'); 
     } else {
-        characterImg.src = 'image/삐코_X.png';
+        characterImg.src = '../image/삐코_X.png';
         characterImg.classList.remove('shrink-image');
         screenEl.classList.add('blink-red'); 
     }
@@ -218,10 +218,10 @@ function showEndScreen() {
     text1.innerHTML = `10문제 중 ${score}문제 정답!<br><br>다시 하시겠습니까?`;
     
     if (score >= 7) {
-        characterImg.src = 'image/삐코_환호.png';
+        characterImg.src = '../image/삐코_환호.png';
         characterImg.classList.remove('shrink-image');
     } else {
-        characterImg.src = 'image/삐코_머쓱.png';
+        characterImg.src = '../image/삐코_머쓱.png';
         characterImg.classList.add('shrink-image'); 
     }
 
@@ -235,4 +235,3 @@ function showEndScreen() {
     updateSelectionUI();
 }
 
-// 맨 아래에 있던 loadQuestion() 제거 (난이도 선택 후 실행되도록)
