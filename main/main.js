@@ -414,37 +414,44 @@ document.addEventListener("keydown", (e) => {
                 
                 location.href = "../game_list/game_list.html"
 
-            }else if(checkState[0].id === state[randomState].id){
+            }else if(checkState[0].id === state[randomState].id ){
 
 
                 //요구에 맞는 행동 선택
                 if(angryTimer){
                     console.log("게임 클릭!!! 휴 ");
-                    //클릭시 health +10
-                    if(parseInt(localStorage.getItem("health")) < 160){
-                        localStorage.setItem("health", parseInt(localStorage.getItem("health")) + 10);
-                    }
+                    if(checkState[0].id === "game"){
+                        //게임일 때는 health 증가 no
+                        location.href = "../game_list/game_list.html"
+                    }else {
 
-                    drawHealth();
-                    
-                    //예약된 setTimeout() 함수 취소
-                    clearTimeout(angryTimer);
-                    //clearTimeout(baseTimer);
-                    angryTimer = "";
-
-                    main.src = state[5].src;
-                    
-                    rightState = 1;
-
-                    
-                    setTimeout(() => {
-                        if(checkState[0].id === "game"){
-                            location.href = "../game_list/game_list.html"
-                        }else{
-                            startBase();
+                        //클릭시 health +10
+                        if(parseInt(localStorage.getItem("health")) < 160){
+                            localStorage.setItem("health", parseInt(localStorage.getItem("health")) + 10);
                         }
-                    }, state[5].time);
-                    
+
+                        drawHealth();
+                        
+                        //예약된 setTimeout() 함수 취소
+                        clearTimeout(angryTimer);
+                        //clearTimeout(baseTimer);
+                        angryTimer = "";
+
+                        main.src = state[5].src;
+                        
+                        rightState = 1;
+
+                        
+                        setTimeout(() => {
+                            if(checkState[0].id === "game"){
+                                location.href = "../game_list/game_list.html"
+                            }else{
+                                startBase();
+                            }
+                        }, state[5].time);
+                        
+                        
+                        }
                     
                 }
             }else{
