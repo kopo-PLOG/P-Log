@@ -1,7 +1,8 @@
 const totalRounds = 10;
 const answerTime = 3000;
 const MAX_LEVEL = 120; // 최대 게이지
-const LEVEL_STEP = 10; // 증가/감소 값
+const LEVEL_UP = 10;
+const LEVEL_DOWN = 5;
 
 let currentRound = 1;
 let score = 0;
@@ -9,6 +10,7 @@ let currentAnswer = '';
 let gameOver = false;
 let inputLocked = true;
 let isEnding = false;
+let isStartMenu =true;
 
 let questionTimeout = null;
 let countdownInterval = null;
@@ -36,13 +38,13 @@ const picoEl = document.getElementById('pico');
 const blueBtn = document.getElementById('blue-btn');
 const whiteBtn = document.getElementById('white-btn');
 
-const READY_IMAGE = './image/flag/삐코_청기백기2.jpg';
-const BLUE_IMAGE = './image/flag/blue_up.jpg';
-const WHITE_IMAGE = './image/flag/white_up.jpg';
-const HAPPY_IMAGE = './image/삐코_환호.png';
-const SAD_IMAGE = './image/삐코_머쓱.png';
+const READY_IMAGE = '../image/flag/삐코_청기백기2.jpg';
+const BLUE_IMAGE = '../image/flag/blue_up.jpg';
+const WHITE_IMAGE = '../image/flag/white_up.jpg';
+const HAPPY_IMAGE = '../image/삐코_환호.png';
+const SAD_IMAGE = '../image/삐코_머쓱.png';
 
-
+////// 레벨시스템 //////
 if (localStorage.getItem('level') === null) {
     localStorage.setItem('level', '0');
 }
@@ -51,7 +53,6 @@ function changeStoredLevel(amount) {
     let level = parseInt(localStorage.getItem('level'), 10) || 0;
 
     level += amount;
-
     // 범위 제한 (0 ~ 120)
     if (level < 0) level = 0;
     if (level > MAX_LEVEL) level = MAX_LEVEL;
@@ -59,19 +60,19 @@ function changeStoredLevel(amount) {
     localStorage.setItem('level', level);
 }
 
-//상단문제 및 점수 업데이트
+////// 상단문제 및 점수 업데이트 //////
 function updateTopBar() {
     roundEl.textContent = `${currentRound}/${totalRounds}`;
     scoreEl.textContent = score;
 }
 
-//타이머,중복방지
+////// 타이머,중복방지 //////
 function clearTimers() {
     clearTimeout(questionTimeout);
     clearInterval(countdownInterval);
 }
 
-//문제 랜덤
+////// 문제 랜덤 //////
 function shuffleArray(array) {
     const copied = [...array];
     for (let i = copied.length - 1; i > 0; i--) {
@@ -85,14 +86,37 @@ function resetProblemQueue() {
     shuffledProblems = shuffleArray(problems);
     problemIndex = 0;
 }
+////// 시작메뉴 //////
+function showStartMenu() {
+    isStartMenu = true;
 
-//준비상태
+    clearTimers();
+    picoEl.src = READY_IMAGE;
+    commandEl.innerHTML = '게임을 시작할까요?<br>← 게임시작 / → 나가기';
+    timerEl.textContent = '';
+
+    blueBtn.textContent = '게임시작';
+    whiteBtn.textContent = '나가기';
+}
+function handleStartMenuChoice(choice) {
+    if (!isStartMenu) return;
+
+    if (choice === 'start') {
+        isStartMenu = false;
+        startIntroCountdown();
+    } else {
+        location.href = '../game_list/game_list.html';
+    }
+}
+////// 준비상태 //////
 function setReadyState() {
     picoEl.src = READY_IMAGE;
     commandEl.textContent = '준비!';
     inputLocked = true;
+    blueBtn.textContent = '←청기';
+    whiteBtn.textContent = '백기 →';
 }
-//시작전 카운트
+////// 시작전 카운트 //////
 function startIntroCountdown() {
     clearTimers();
     setReadyState();
@@ -114,7 +138,7 @@ function startIntroCountdown() {
     }, 1000);
 }
 
-//문제 세팅
+////// 문제 세팅 //////
 function setNewProblem() {
     if (problemIndex >= shuffledProblems.length) {
         resetProblemQueue();
@@ -135,7 +159,7 @@ function setNewProblem() {
 
     startQuestionTimer();
 }
-//문제 타이머
+///////문제 타이머 //////
 function startQuestionTimer() {
     let remaining = Math.ceil(answerTime / 1000); // 3,2,1
     timerEl.textContent = remaining;
@@ -155,7 +179,7 @@ function startQuestionTimer() {
         handleTimeout();
     }, answerTime);
 }
-//시간초과
+////// 정답 처리 //////
 function handleTimeout() {
     if (gameOver || inputLocked) return;
 
@@ -175,8 +199,7 @@ function showRaisedFlag(userInput) {
         picoEl.src = WHITE_IMAGE;
     }
 }
-
-//정답체크
+////// 정답체크 //////
 function checkAnswer(userInput) {
     if (gameOver || inputLocked) return;
 
@@ -198,6 +221,7 @@ function checkAnswer(userInput) {
         nextRound();
     }, 500);
 }
+////// 라운드 진행 //////
 function nextRound() {
     clearTimers();
 
@@ -210,6 +234,7 @@ function nextRound() {
     updateTopBar();
     setNewProblem();
 }
+////// 엔딩 //////
 function showEndScreen() {
     gameOver = true;
     isEnding = true;
@@ -220,12 +245,12 @@ function showEndScreen() {
 
     if (score >= 7) {
         picoEl.src = HAPPY_IMAGE;
-        commandEl.innerHTML = `${totalRounds}문제 중 ${score}문제 정답!<br>게이지 +10<br>다시 하시겠습니까?`;
-        changeStoredLevel(LEVEL_STEP);
+        commandEl.innerHTML = `${totalRounds}문제 중 ${score}문제 정답!<br>게이지 +${LEVEL_UP}<br>다시 하시겠습니까?`;
+        changeStoredLevel(LEVEL_UP);
     } else {
         picoEl.src = SAD_IMAGE;
-        commandEl.innerHTML = `${totalRounds}문제 중 ${score}문제 정답!<br>게이지 -10<br>다시 하시겠습니까?`;
-        changeStoredLevel(-LEVEL_STEP);
+        commandEl.innerHTML = `${totalRounds}문제 중 ${score}문제 정답!<br>게이지 -${LEVEL_DOWN}<br>다시 하시겠습니까?`;
+        changeStoredLevel(-LEVEL_DOWN);
     }
 
     blueBtn.textContent = '예';
@@ -242,32 +267,36 @@ function restartGame() {
     gameOver = false;
     inputLocked = true;
     isEnding = false;
-
+    isStartMenu=false;
+    
     resetProblemQueue();
     updateTopBar();
 
     blueBtn.textContent = '←청기';
     whiteBtn.textContent = '백기 →';
-    blueBtn.disabled = false;
-    whiteBtn.disabled = false;
 
     startIntroCountdown();
 }
+////// 다시하기 / 종료 선택 //////
 function handleEndingChoice(choice) {
     if (!isEnding) return;
     if (choice === 'yes') {
         restartGame();
     } else {
-     
-        commandEl.innerHTML = `게임을 종료했어요!<br>수고했어요 :)`;
-        timerEl.textContent = '';
-        blueBtn.disabled = true;
-        whiteBtn.disabled = true;
+        location.href = '../main/main.html';
     }
 }
 
-//키보드 입력
+//////// 키보드 입력 //////
 document.addEventListener('keydown', (event) => {
+    if (isStartMenu) {
+        if (event.key === 'ArrowLeft') {
+            handleStartMenuChoice('start');
+        } else if (event.key === 'ArrowRight') {
+            handleStartMenuChoice('exit');
+        }
+        return;
+    }
     if (isEnding) {
         if (event.key === 'ArrowLeft') {
             handleEndingChoice('yes');
@@ -284,23 +313,6 @@ document.addEventListener('keydown', (event) => {
         checkAnswer('white');
     }
 });
-
-blueBtn.addEventListener('click', () => {
-    if (isEnding) {
-        handleEndingChoice('yes');
-        return;
-    }
-    checkAnswer('blue');
-});
-
-whiteBtn.addEventListener('click', () => {
-    if (isEnding) {
-        handleEndingChoice('no');
-        return;
-    }
-    checkAnswer('white');
-});
-
 resetProblemQueue();
 updateTopBar();
-startIntroCountdown();
+showStartMenu();
