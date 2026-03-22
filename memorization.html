@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>방향 맞추기</title>
+    <title>암기 게임</title>
+    <link rel="icon" href="/image/pico_icon.jpg">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="memo.css">
 </head>
@@ -13,7 +14,7 @@
 
         <div id="screen">
             <div class="memo-wrap">
-                <h2 class="game-title">방향 맞추기</h2>
+                <h2 class="game-title">방향 암기게임</h2>
 
                 <div class="info-box">
                     <span>라운드 : <span id="round"></span> / 5</span>
@@ -31,10 +32,15 @@
                 <!-- <p id="phase-text">게임 시작 버튼을 누르세요</p> -->
 
 
-                <div id="input-display"></div> <!-- 게임 시에 <,>가 나오는 박스임! -->
+                <div id="input-display"></div> <!-- 게임 시에 <,>를 입력하는 박스! -->
 
                 <div id="arrow-display">
-                    <img src="./image/삐코_암기게임.png" alt="암기게임 이미지">
+                    <img id="state-image" src="./image/삐코_암기게임.png" alt="삐코 상태 이미지">
+
+                    <div id="input-bubble-wrap">
+                        <img src="./image/말풍선.png" id="input-bubble" alt="입력 말풍선">
+                        <div id="arrow-text"></div>
+                    </div>
                 </div>
 
                 <div id="button-area">

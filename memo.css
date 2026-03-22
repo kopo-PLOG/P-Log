@@ -22,7 +22,7 @@
 }
 
 .game-title{
-    margin: 4px 0 6px 0;
+    margin: 4px 0 15px 0;
     font-size: 20px;
     line-height: 1.1;
 }
@@ -45,8 +45,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 6px;
-    min-height: 95px;
+    height: 170px;
+    margin-top: 12px;
+    position: relative;
+    overflow: visible;
 }
 
 #arrow-display img{
@@ -54,16 +56,69 @@
     height: auto;
     display: block;
     margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+#state-image{
+    width: 210px;
+    height: auto;
+    display: block;
+    image-rendering: pixelated;
+}
+
+#input-bubble-wrap{
+    display: none;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 170px;
+    z-index: 3;
+}
+
+.input-bubble{
+    width: 100%;
+    height: auto;
+    display: block;
+    image-rendering: pixelated;
+}
+
+#arrow-text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Fixedsys', sans-serif;
+    font-size: 60px;
+    letter-spacing: 10px;
+    color: black;
+    white-space: nowrap;
+    text-align: center;
+}
+
+#arrow-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    text-align: center;
+}
+
+#arrow-content img{
+    width: 200px;
+    height: auto;
+    display: flex;
+    margin-top: 10px;
 }
 
 #timer-box{
-    margin-top: 4px;
+    margin-top: 20px;
     font-size: 15px;
 }
 
 #input-display{
     font-family: 'Fixedsys', sans-serif;
-    margin-top: 10px;
+    margin-top: 30px;
     width: 150px;
     height: 28px;
     border: 1px solid black;
@@ -93,9 +148,9 @@
 .arrow-btn{
     background-color: lightblue;
     font-family: 'Fixedsys', sans-serif;
-    width: 48px;
-    height: 36px;
-    font-size: 18px;
+    width: 55px;
+    height: 40px;
+    font-size: 35px;
     border: 1px solid black;
     border-radius: 8px;
     cursor: pointer;
@@ -111,11 +166,24 @@
     border-radius: 8px;
     cursor: pointer;
     margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* 브라우저 기본 버튼 여백을 제거 */
+    box-sizing: border-box; /*  */
+    flex-shrink: 0; /* 부모가 flex일 때 버튼 눌림 방지 */
+}
+
+#start-btn.active{
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px #333;
 }
 
 #result-message{
-    margin-top: 6px;
-    font-size: 12px;
-    font-weight: bold;
+    font-family: 'Fixedsys', sans-serif;
+    color: red;
+    margin-top: 30px;
+    font-size: 20px;
+    font-weight: 500;
     min-height: 16px;
 }
