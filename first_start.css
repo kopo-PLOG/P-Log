@@ -1,0 +1,95 @@
+@font-face {
+    font-family: 'Fixedsys';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+
+
+body {
+    font-family: 'Fixedsys', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+#background {
+    position:absolute;
+    width: 750px;
+    height: 850px;
+    min-width: 750px;
+    top: 7.5px; /* 기존 index.html 화면과 규격이 달라 위치를 조정함 */
+}
+
+#screen {
+    position: absolute;
+    width: 423px;
+    height: 373px;
+    top: 237.5px;
+    border-radius: 16.5px;
+    background-color: rgb(208, 239, 250); /* 화면 배경색 */
+    
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    
+    box-shadow: 
+        inset 0px 0px 25px rgba(0, 0, 0, 0.35);   
+}
+
+/* --- 게임시작화면 스타일 --- */
+
+#start-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; 
+}
+
+#title {
+    font-size: 90px;
+    margin: 0;
+    color: #ff94a6; 
+    text-shadow: 2px 2px 0px #333; /* 그림자 효과 */
+}
+
+#start-btn {
+    background-color: lightblue; 
+    color: #333;
+    font-family: 'Fixedsys', sans-serif;
+    font-size: 24px;
+    border: 3px solid #333; 
+    border-radius: 12px;
+    padding: 8px 10px;
+    cursor: pointer;
+    box-shadow: 4px 2px 0px #333; 
+    
+}
+
+/* 버튼 애니메이션 */
+#start-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px #333;
+}
+
+#instruction {
+    font-size: 16px;
+    color: #888;
+    margin-top: 15px;
+    animation: blink 1.5s infinite; /* 글씨가 깜빡이게 처리 */
+}
+
+/* 글씨 깜빡임 정의 */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
