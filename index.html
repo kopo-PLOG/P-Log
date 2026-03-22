@@ -33,13 +33,21 @@
     
 
     <script>
+
+        const startBtn = document.getElementById('start-btn');
+
         function startGame() {
            window.location.href = "main/main.html";
         }
 
-        
-        document.getElementById('start-btn').addEventListener('click', function() {
-            startGame(); //게임시작 클릭하면 index.html로 넘어가는 startGame함수 실행
+        document.addEventListener('keydown', function(event){
+            if (event.key === 'ArrowDown'){
+                startBtn.classList.add('active-key');
+
+                setTimeout(() => {
+                    startGame();
+                }, 200); //0.2초 뒤 페이지 이동
+            }
         });
     </script>
 </body>
