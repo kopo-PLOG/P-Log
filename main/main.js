@@ -242,6 +242,9 @@ function drawLevel(){
     //health + levelGage로 할까말까
     if(levelGage >= 120 && healthGage > 40){
 
+        //진화하는 과정중 표시
+        changingState = true;
+
         gage.src = level[4].src;
         main.src = state[7].src;
 
