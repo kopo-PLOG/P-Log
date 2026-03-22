@@ -40,6 +40,10 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+
+    
+    box-shadow: 
+        inset 0px 0px 25px rgba(0, 0, 0, 0.35);   
 }
 
 /* --- 게임시작화면 스타일 --- */
