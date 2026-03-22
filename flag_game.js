@@ -1,5 +1,7 @@
 const totalRounds = 10;
 const answerTime = 3000;
+const MAX_LEVEL = 120; // 최대 게이지
+const LEVEL_STEP = 10; // 증가/감소 값
 
 let currentRound = 1;
 let score = 0;
@@ -10,6 +12,8 @@ let isEnding = false;
 
 let questionTimeout = null;
 let countdownInterval = null;
+let shuffledProblems = []; //문제섞기
+let problemIndex = 0;
 
 const problems = [
     { text: '청기 들어!', answer: 'blue' },
@@ -23,10 +27,6 @@ const problems = [
     { text: '청기는 들지 말고 백기만 들어!', answer: 'white' },
     { text: '백기는 들지 말고 청기만 들어!', answer: 'blue' },
 ];
-//문제 섞기
-let shuffledProblems = [];
-
-let problemIndex = 0;
 
 const roundEl = document.getElementById('round');
 const scoreEl = document.getElementById('score');
@@ -41,6 +41,23 @@ const BLUE_IMAGE = './image/flag/blue_up.jpg';
 const WHITE_IMAGE = './image/flag/white_up.jpg';
 const HAPPY_IMAGE = './image/삐코_환호.png';
 const SAD_IMAGE = './image/삐코_머쓱.png';
+
+
+if (localStorage.getItem('level') === null) {
+    localStorage.setItem('level', '0');
+}
+
+function changeStoredLevel(amount) {
+    let level = parseInt(localStorage.getItem('level'), 10) || 0;
+
+    level += amount;
+
+    // 범위 제한 (0 ~ 120)
+    if (level < 0) level = 0;
+    if (level > MAX_LEVEL) level = MAX_LEVEL;
+
+    localStorage.setItem('level', level);
+}
 
 //상단문제 및 점수 업데이트
 function updateTopBar() {
@@ -78,7 +95,6 @@ function setReadyState() {
 //시작전 카운트
 function startIntroCountdown() {
     clearTimers();
-
     setReadyState();
 
     let count = 3;
@@ -103,7 +119,6 @@ function setNewProblem() {
     if (problemIndex >= shuffledProblems.length) {
         resetProblemQueue();
     }
-
     const selected = shuffledProblems[problemIndex];
     problemIndex++;
 
@@ -120,7 +135,6 @@ function setNewProblem() {
 
     startQuestionTimer();
 }
-
 //문제 타이머
 function startQuestionTimer() {
     let remaining = Math.ceil(answerTime / 1000); // 3,2,1
@@ -135,7 +149,6 @@ function startQuestionTimer() {
             timerEl.textContent = '';
         }
     }, 1000);
-
 
     //시간초과 처리
     questionTimeout = setTimeout(() => {
@@ -155,7 +168,6 @@ function handleTimeout() {
     }, 500);
 }
 
-
 function showRaisedFlag(userInput) {
     if (userInput === 'blue') {
         picoEl.src = BLUE_IMAGE;
@@ -163,7 +175,6 @@ function showRaisedFlag(userInput) {
         picoEl.src = WHITE_IMAGE;
     }
 }
-
 
 //정답체크
 function checkAnswer(userInput) {
@@ -207,12 +218,14 @@ function showEndScreen() {
 
     timerEl.textContent = '';
 
-    commandEl.innerHTML = `${totalRounds}문제 중 ${score}문제 정답!<br>다시 하시겠습니까?`;
-
     if (score >= 7) {
         picoEl.src = HAPPY_IMAGE;
+        commandEl.innerHTML = `${totalRounds}문제 중 ${score}문제 정답!<br>게이지 +10<br>다시 하시겠습니까?`;
+        changeStoredLevel(LEVEL_STEP);
     } else {
         picoEl.src = SAD_IMAGE;
+        commandEl.innerHTML = `${totalRounds}문제 중 ${score}문제 정답!<br>게이지 -10<br>다시 하시겠습니까?`;
+        changeStoredLevel(-LEVEL_STEP);
     }
 
     blueBtn.textContent = '예';
@@ -242,20 +255,16 @@ function restartGame() {
 }
 function handleEndingChoice(choice) {
     if (!isEnding) return;
-
     if (choice === 'yes') {
         restartGame();
     } else {
-        // 필요하면 메인 페이지로 이동
-        // window.location.href = 'index.html';
-
+     
         commandEl.innerHTML = `게임을 종료했어요!<br>수고했어요 :)`;
         timerEl.textContent = '';
         blueBtn.disabled = true;
         whiteBtn.disabled = true;
     }
 }
-
 
 //키보드 입력
 document.addEventListener('keydown', (event) => {
@@ -269,7 +278,6 @@ document.addEventListener('keydown', (event) => {
     }
 
     if (gameOver || inputLocked) return;
-
     if (event.key === 'ArrowLeft') {
         checkAnswer('blue');
     } else if (event.key === 'ArrowRight') {
@@ -292,7 +300,6 @@ whiteBtn.addEventListener('click', () => {
     }
     checkAnswer('white');
 });
-
 
 resetProblemQueue();
 updateTopBar();
