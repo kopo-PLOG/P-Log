@@ -4,6 +4,12 @@
     font-weight: normal;
     font-display: swap;
 }
+div{
+    caret-color: transparent;
+}
+span{
+    caret-color: transparent;
+}
 body{
     margin: 0;
     font-family: 'Fixedsys';
@@ -32,7 +38,7 @@ body{
     flex-direction: column;
     overflow: hidden;
 }
-
+/*상단 문제,점수*/
 #top-bar{
     height: 14%;
     background: white;
@@ -47,16 +53,17 @@ body{
 .info-group{
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap:20px;
 }
-
+/* 문제 텍스트 영역 */
 #command{
     height: 12%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    background: #ffffff;
+    background: white;
+    white-space: pre-line; /*엔딩장면 후 줄바꿈 꺠지는거 방지!*/
  
 }
 
@@ -94,7 +101,7 @@ body{
 }
 
 #button-area button{
-    width: 50%;
+    width: 50%; /*반반 나눔*/
     border: none;
     font-size: 24px;
     font-family: 'Fixedsys';
@@ -103,7 +110,7 @@ body{
     justify-content: center;
     align-items: center;
 }
-
+/*맨 아래 청기 백기 칸 선으로 나눔 */
 #button-area button:first-child{
-    border-right: 1px solid black;
+    border-right: 2px solid black;
 }
