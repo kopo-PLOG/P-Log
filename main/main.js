@@ -166,8 +166,11 @@ let changingState = false;
 //키보드 이벤트 막기용 flag
 let cantKey = false;
 
+//닭 되었을 때 이벤트 반응 막기
+let adultTimer = null;
 //진화까지 다 끝나면 아예 동작 못하게 막기
 let done = false;
+
 
 const levelNum = parseInt(localStorage.getItem("level"));
 const healthNum = parseInt(localStorage.getItem("health"));
@@ -184,7 +187,7 @@ drawLevel()
 //health 게이지 
 function drawHealth(){
 
-    console.log("drawHealth()");
+    //console.log("drawHealth()");
 
     const healthGage = parseInt(localStorage.getItem("health"));
     
@@ -235,7 +238,7 @@ function drawHealth(){
 
 //level 게이지
 function drawLevel(){
-    console.log("drawLevel()");
+    //console.log("drawLevel()");
 
     const levelGage = parseInt(localStorage.getItem("level"));
     const healthGage = parseInt(localStorage.getItem("health"));
@@ -258,7 +261,7 @@ function drawLevel(){
         if(angryTimer) clearTimeout(angryTimer);
 
         setTimeout(() => {
-            
+            cantKey = false;
             const second = document.getElementById("second");
             changingState = true;
             second.innerHTML = `<div id="select_area">
@@ -288,7 +291,7 @@ function startBase(){
 
     const gage = parseInt(localStorage.getItem("health"));
 
-    console.log(`startBase() : health = ${gage}`);
+    //console.log(`startBase() : health = ${gage}`);
 
     currentState = "normal";
 
@@ -296,10 +299,10 @@ function startBase(){
     cantKey = false;
 
     if(gage <= 40){
-        console.log("탈진")
+        //console.log("탈진")
         main.src = state[8].src;
     }else{
-        console.log("정상")
+        //console.log("정상")
         main.src = state[0].src;
     }
 
@@ -316,7 +319,7 @@ function startBase(){
 
 function randomEvent(){
 
-    console.log("randomEvent()");
+    //console.log("randomEvent()");
     // 모든 종류의 타이머를 먼저 초기화
     if(angryTimer) clearTimeout(angryTimer);
     if(wonderTimer) clearTimeout(wonderTimer);
@@ -328,8 +331,8 @@ function randomEvent(){
     while(true){
         randomState = Math.floor(Math.random() * 3) + 1;
         const lastState = parseInt(localStorage.getItem("lastState"));
-        console.log(`랜덤 state 값 : ${randomState}`);
-        console.log(`지난 랜덤 행동 값 : ${lastState}`);
+        //console.log(`랜덤 state 값 : ${randomState}`);
+        //console.log(`지난 랜덤 행동 값 : ${lastState}`);
         if(randomState === lastState){
             continue;
         }else{
@@ -341,7 +344,7 @@ function randomEvent(){
     currentState = state[randomState].id
     angryTimer = setTimeout(() => {
         angryTimer = 0;
-        console.log("반응 못함");
+        //console.log("반응 못함");
         getAngry();
     }, state[randomState].time);
 
@@ -349,7 +352,7 @@ function randomEvent(){
 
 //10초동안 반응하지 않았을 때 화냄
 function getAngry(){
-    console.log("getAngry()");
+    //console.log("getAngry()");
 
     //화내는 동안 조작 금지
     cantKey = true;
@@ -371,7 +374,7 @@ function getAngry(){
 
 document.addEventListener("keydown", (e) => {
 
-    if(cantKey || changingState || done) return;
+    if(cantKey) return;
 
     if(!changingState && !done && !cantKey){
         const game = document.getElementById("game");
@@ -414,9 +417,9 @@ document.addEventListener("keydown", (e) => {
             const checkState = document.querySelectorAll(".check");
             const selected = checkState[0].id;
 
-            console.log(`지금 선택한 값 : ${checkState[0].id}`);
-            console.log(`랜덤 행동 값 : ${state[randomState].id}`);
-            console.log(`currentState: ${currentState}`);
+            //console.log(`지금 선택한 값 : ${checkState[0].id}`);
+            //console.log(`랜덤 행동 값 : ${state[randomState].id}`);
+            //console.log(`currentState: ${currentState}`);
             
         
             
@@ -437,7 +440,7 @@ document.addEventListener("keydown", (e) => {
                 }
             }else if(currentState === selected){
                 //요구에 맞는 행동
-                console.log("정답!");
+                //console.log("정답!");
 
                 if(currentState === "game"){
                     location.href = "../game_list/game_list.html"
@@ -460,25 +463,29 @@ document.addEventListener("keydown", (e) => {
             }else{
 
                 // //요구에 잘못된 행동 선택
-                console.log("오답!");
+                //console.log("오답!");
                 getAngry(); // getAngry 내부에서 startBase를 호출하며 잠금을 풀어줌
             }
         }
     }else if(changingState && !done && e.key === "ArrowDown"){
+        //console.log("ekfekfekekdkdkd")
         const select_select = document.getElementById("select_select");
 
         select_select.style = "color: red";
         const second = document.getElementById("second");
-        setTimeout(() => {
+        adultTimer = setTimeout(() => {
             //console.log("!!!!!!!red!!!!!!!");
             second.innerHTML = `<img src="../image/indexImg/pico_adult.gif" alt="피코 닭 버전">`
-            done = true;
+            done = true;    
+           
             ending();
         }, 300);
     }else if(done){
-       
+
+        if(adultTimer) return;
+        
         if(e.key === "ArrowRight" || e.key === "ArrowLeft"){
-            console.log("!!!!!!!!!!!!!!!!!!!!!선태개애애애앵");
+            //console.log("!!!!!!!!!!!!!!!!!!!!!선태개애애애앵");
             const last_check = document.querySelectorAll(".last_check");
             const select_yes = document.getElementById("select_yes");
             const select_no = document.getElementById("select_no");
@@ -496,12 +503,15 @@ document.addEventListener("keydown", (e) => {
             }
         }else if(e.key === "ArrowDown"){
             const last_check = document.querySelectorAll(".last_check");
-            localStorage.setItem("health", 80);
-            localStorage.setItem("level", 0);
-            console.log("!!!!!!!!!!!!!!!!!!!!!yese");
+            
+            //console.log("!!!!!!!!!!!!!!!!!!!!!yese");
             if(last_check[0].id === "select_yes"){
+                localStorage.setItem("health", 80);
+                localStorage.setItem("level", 0);
                 location.href = "../index.html";
             }else{
+                localStorage.setItem("health", 80);
+                localStorage.setItem("level", 0);
                 location.href = "ending.html";
             }
         }
@@ -510,8 +520,9 @@ document.addEventListener("keydown", (e) => {
     
 
 //////////// 엔딩 ///////////////
+
+
 function ending(){
-    
     setTimeout(() => {
         const second = document.getElementById("second");
         changingState = true;
@@ -529,5 +540,6 @@ function ending(){
                         </div>
                         
                     </div>`
+                    adultTimer = null;
     }, state[6].time);
 }
