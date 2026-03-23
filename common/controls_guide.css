@@ -1,4 +1,12 @@
+@font-face {
+    font-family: 'Fixedsys';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
 #controls-guide {
+    font-family: 'Fixedsys';
     position: absolute; /* 부모 #container를 기준 */
     top: 500px;         
     
