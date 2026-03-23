@@ -289,6 +289,11 @@ function handleEndingChoice(choice) {
 
 //////// 키보드 입력 //////
 document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+        blueBtn.classList.add('active');
+    } else if (event.key === 'ArrowRight') {
+        whiteBtn.classList.add('active');
+    }
     if (isStartMenu) {
         if (event.key === 'ArrowLeft') {
             handleStartMenuChoice('start');
@@ -311,6 +316,14 @@ document.addEventListener('keydown', (event) => {
         checkAnswer('blue');
     } else if (event.key === 'ArrowRight') {
         checkAnswer('white');
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+    if (event.key === 'ArrowLeft') {
+        blueBtn.classList.remove('active');
+    } else if (event.key === 'ArrowRight') {
+        whiteBtn.classList.remove('active');
     }
 });
 resetProblemQueue();
