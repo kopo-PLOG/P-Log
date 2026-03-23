@@ -1,3 +1,4 @@
+
 const roundEl = document.getElementById("round");
 const scoreEl = document.getElementById("score");
 const timeEl = document.getElementById("time");
@@ -301,20 +302,29 @@ function startInputPhase() {
 // ----------------------
 // 키보드 입력 (마우스 버튼은 pointer-events: none으로 비활성화)
 // ----------------------
+
 document.addEventListener("keydown", (event) => {
     // 아래 방향키: 게임 시작 대기 중일 때 게임 시작
     if (event.key === "ArrowDown") {
         event.preventDefault();
-        if (waitingForStart) {
-            startGame();
+        
+        if (waitingForStart && retryAreaEl.style.display !=="flex") {
+            startBtn.classList.add("active-key");
+            setTimeout(()=>{
+                startGame();
+            }, 150);
         }
         return;
     }
  
     // 왼쪽 방향키: 초기 대기 화면에서 뒤로가기
-    if (event.key === "ArrowLeft" && waitingForStart) {
+    if (event.key === "ArrowLeft" && waitingForStart && retryAreaEl.style.display !== "flex") {
         event.preventDefault();
-        location.href = "../game_list/game_list.html";
+        backBtnEl.classList.add("active-key");
+        // 버튼 효과 후 페이지 이동
+        setTimeout(() => {
+            location.href = "../game_list/game_list.html";
+        }, 150);
         return;
     }
  
@@ -322,13 +332,20 @@ document.addEventListener("keydown", (event) => {
     if (retryAreaEl.style.display === "flex") {
         if (event.key === "ArrowLeft") {
             event.preventDefault();
-            retryAreaEl.style.display = "none";
-            resultMessageEl.textContent = "";
-            waitingForStart = true;
-            startGame();
+            yesBtnEl.classList.add("active-key");
+            setTimeout(() => {
+                retryAreaEl.style.display = "none";
+                resultMessageEl.textContent = "";
+                waitingForStart = true;
+                yesBtnEl.classList.remove("active-key"); // 클래스 초기화
+                startGame();
+            }, 150);
         } else if (event.key === "ArrowRight") {
             event.preventDefault();
-            location.href = "../game_list/game_list.html";
+            noBtnEl.classList.add("active-key");
+            setTimeout(() => {
+                location.href = "../game_list/game_list.html";
+            }, 150);
         }
         return;
     }
@@ -475,3 +492,16 @@ function clearAllTimers() {
     stareDelayTimer = null;
     roundDelayTimer = null;
 }
+
+document.addEventListener("keyup", (event) => {
+    if (event.key === "ArrowDown") {
+        startBtn.classList.remove("active-key");
+    }
+    if (event.key === "ArrowLeft") {
+        backBtnEl.classList.remove("active-key");
+        yesBtnEl.classList.remove("active-key");
+    }
+    if (event.key === "ArrowRight") {
+        noBtnEl.classList.remove("active-key");
+    }
+});
