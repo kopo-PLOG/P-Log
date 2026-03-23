@@ -6,6 +6,7 @@
 }
 
 #controls-guide {
+    font-family: 'Fixedsys';
     position: absolute; /* 부모 #container를 기준 */
     top: 500px;         
     
