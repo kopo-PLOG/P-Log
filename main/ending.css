@@ -5,6 +5,13 @@
     font-display: swap;
 }
 
+div{
+    caret-color: transparent;
+}
+span{
+    caret-color: transparent;
+}
+
 img {
     -webkit-user-select: none;
     -khtml-user-select: none;
