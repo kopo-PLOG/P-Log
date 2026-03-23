@@ -1,0 +1,293 @@
+@font-face {
+    font-family: 'Fixedsys';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+ 
+img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    -user-drag: none;
+}
+
+.memo-wrap{
+    font-family: 'Fixedsys', sans-serif;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 8px 14px 10px 14px;
+    background-color: #ffffff;
+    border-radius: 16.5px;
+    border: 1px solid #ffffff;
+    overflow: hidden;
+    position: relative; /* 뒤로가기 버튼, 오버레이 기준점 */
+}
+ 
+/* ── 뒤로가기 버튼 ── */
+#back-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    font-family: 'Fixedsys', sans-serif;
+    width: 32px;
+    height: 32px;
+    font-size: 25px;
+    cursor: default;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 10;
+    color: rgb(218, 133, 133);
+
+    box-shadow: 3px 3px 0px #333;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+ 
+#back-btn.active-key {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px #333;
+}
+ 
+/* ── 게임시작! 오버레이 ── */
+#start-overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.88);
+    z-index: 20;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Fixedsys', sans-serif;
+    font-size: 32px;
+    color: #333;
+    border-radius: 16.5px;
+}
+ 
+.game-title{
+    margin: 4px 0 15px 0;
+    font-size: 20px;
+    line-height: 1.1;
+}
+ 
+.info-box{
+    margin-top: 0;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+ 
+#arrow-display{
+    height: 250px;
+    margin-top: 12px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    flex-direction: column;
+}
+ 
+#state-image{
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    width: 240px;
+    height: auto;
+    display: block;
+    margin-bottom: 20px;
+    image-rendering: pixelated;
+    z-index: 2;
+}
+ 
+/* 큰 말풍선 */
+#input-bubble-wrap{
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    z-index: 3;
+    transition: all 0.3s ease;
+}
+ 
+/* 말풍선 이미지 */
+#input-bubble{
+    width: 100%;
+    height: auto;
+    display: block;
+    image-rendering: pixelated;
+}
+ 
+/* 말풍선 안 글씨 */
+#arrow-text{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Fixedsys', sans-serif;
+    font-size: 24px;
+    letter-spacing: 4px;
+    color: black;
+    white-space: nowrap;
+    text-align: center;
+    z-index: 4;
+}
+ 
+#timer-box{
+    margin-top: 20px;
+    font-size: 15px;
+}
+ 
+/* 타이머 숫자 빨간색 */
+#time {
+    color: red;
+    font-weight: bold;
+}
+ 
+#input-display{
+    font-family: 'Fixedsys', sans-serif;
+    margin-top: 30px;
+    width: 150px;
+    height: 28px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 16px;
+    line-height: 1.2;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+ 
+#button-area{
+    display: none;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 2px;
+}
+ 
+.arrow-btn{
+    background-color: lightblue;
+    font-family: 'Fixedsys', sans-serif;
+    width: 55px;
+    height: 40px;
+    font-size: 35px;
+    border: 1px solid black;
+    border-radius: 8px;
+    cursor: pointer;
+    /* 마우스 클릭 비활성화 */
+    pointer-events: none;
+}
+ 
+#start-btn{
+    background-color: lightblue;
+    font-family: 'Fixedsys', sans-serif;
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 8px;
+    cursor: default;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    position: relative;
+    top: 30px;
+    /* 마우스 클릭 비활성화 */
+    pointer-events: none;
+
+    box-shadow: 3px 3px 0px #333;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+ 
+#start-btn.active-key {
+    
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px #333;
+}
+ 
+#result-message{
+    font-family: 'Fixedsys', sans-serif;
+    color: red;
+    margin-top: 14px;
+    font-size: 20px;
+    font-weight: 500;
+    min-height: 16px;
+}
+ 
+/* ── 실패 시 재도전 영역 ── */
+#retry-area {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1px;
+    /*position: relative;
+    top: 30px;*/
+}
+ 
+#retry-message {
+    font-family: 'Fixedsys', sans-serif;
+    font-size: 15px;
+    margin: 0;
+}
+ 
+#retry-buttons {
+    display: flex;
+    gap: 12px;
+}
+ 
+.retry-btn {
+    background-color: lightblue;
+    font-family: 'Fixedsys', sans-serif;
+    width: 80px;
+    height: 44px;
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 8px;
+    cursor: default;
+    pointer-events: none;
+    box-sizing: border-box;
+    box-shadow: 3px 3px 0px #333;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+ 
+.retry-btn.active-key {
+    
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px #333;
+}
+
+@keyframes blinkBlue {
+    0%, 100% { box-shadow: 0 0 0 transparent, inset 0 0 0 transparent; }
+    50% { box-shadow: 0 0 20px 5px rgba(0, 102, 255, 0.8), inset 0 0 10px 3px rgba(0, 102, 255, 0.8); }
+}
+ 
+.blink-blue {
+    animation: blinkBlue 0.5s 4; /* 0.5초 간격으로 4번 반복 (총 2초) */
+}

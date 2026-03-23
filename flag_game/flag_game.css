@@ -1,0 +1,140 @@
+@font-face {
+    font-family: 'Fixedsys';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    -user-drag: none;
+}
+
+div{
+    caret-color: transparent;
+}
+span{
+    caret-color: transparent;
+}
+body{
+    margin: 0;
+    font-family: 'Fixedsys';
+}
+
+#container{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+#background{
+    width: 750px;
+    height: 850px;
+}
+
+#screen{
+    position: absolute;
+    top: 230px;
+    width: 423px;
+    height: 373px;
+    border: 1px solid black;
+    border-radius: 16px;
+    background: #f3f3f3;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+/*상단 문제,점수*/
+#top-bar{
+    height: 14%;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4%;
+    box-sizing: border-box;
+    font-size: 27px;
+}
+
+.info-group{
+    display: flex;
+    align-items: center;
+    gap:20px;
+}
+/* 문제 텍스트 영역 */
+#command{
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    background: white; 
+    padding: 2px;
+}
+
+#timer{
+    height: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    background:white;
+
+    
+}
+
+#game-area{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: white;
+}
+
+#pico{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#button-area{
+    height: 16%;
+    display: flex;
+    border-top: 1px solid black;
+    background: lightblue;
+}
+
+#button-area button{
+    width: 50%; /*반반 나눔*/
+    border: none;
+    font-size: 24px;
+    font-family: 'Fixedsys';
+    background-color: lightblue;
+    box-shadow: inset 0 0 0 transparent, 0 -4px 0 rgba(0,0,0,0.1) inset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+
+    transition: background-color 0.1s, transform 0.1s, box-shadow 0.1s;
+    position: relative;
+}
+/*맨 아래 청기 백기 칸 선으로 나눔 */
+#button-area button:first-child{
+    border-right: 2px solid black;
+}
+
+
+#button-area button.active {
+    background-color: #69a5bd; 
+    transform: translateY(4px); 
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.2); 
+}

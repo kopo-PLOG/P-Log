@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P-LOG</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="../common/controls_guide.css">
+    <link rel="icon" href="../image/pico_icon.jpg">
+</head>
+<body>
+    <div id="container">  
+            <img id="background" src="../image/background.png" alt="background"> 
+            
+            <div id="screen">
+                <div id="first">
+                    <div id="health">
+                        <div id="health_area" style="display: flex; margin-top: 5px;">
+                            <div class="health_sec1"><span>Health</span></div>
+                            <div class="health_sec2">
+                                <div class="heart" id="heart1"><img src="../image/indexImg/heart_1.png" alt=""></div>
+                                <div class="heart" id="heart2"><img src="../image/indexImg/heart_1.png" alt=""></div>
+                                <div class="heart" id="heart3"><img src="../image/indexImg/heart_1.png" alt=""></div>
+                                <div class="heart" id="heart4"><img src="../image/indexImg/heart_1.png" alt=""></div>
+                            </div>
+                        </div>
+                        <div id="health_level" style="display: flex;">
+                            <div class="health_sec1"><span>Level</span></div>
+                            <div class="health_sec2">
+                                <div id="gage">
+                                    <img src="../image/indexImg/gage_1.png" alt="">
+                                </div>
+                                <div id="gageNum">
+                                    <span>0/120</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div id="game" class="check">
+                        <div>
+                            <img src="../image/indexImg/game.png" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="second">
+                    <img id="mainImg" src="../image/indexImg/pico_base.gif">
+                </div>
+
+                <div id="third">
+                    <div id="toilet">
+                        <div>
+                            <img src="../image/indexImg/toilet_3.png" alt="">
+                        </div>
+                    </div>
+                    <div id="comment">
+                        <div>
+                            <!-- <img src="/image/indexImg/comment_box_1.png" alt=""> -->
+                             <!-- 시간이 남을 때 멘트 하기 -->
+                        </div>
+                    </div>
+                    <div id="food">
+                        <div>
+                            <img src="../image/indexImg/food_2.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div id="controls-guide">
+            <h3>⭐ 조작 방법 ⭐</h3>
+            <ul>
+                <li><span class="key">←</span> 왼쪽 이동</li>
+                <li><span class="key">→</span> 오른쪽 이동</li>
+                <li><span class="key">↓</span> 선택</li>
+            </ul>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

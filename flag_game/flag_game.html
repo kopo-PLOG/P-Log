@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>청기백기 게임</title>
+  <link rel="stylesheet" href="flag_game.css">
+  <link rel="stylesheet" href="../common/controls_guide.css">
+  <link rel="icon" href="../image/pico_icon.jpg">
+</head>
+<body>
+
+<div id="container">
+  <img id="background" src="../image/background.png" alt="배경">
+
+  <div id="screen">
+
+    <div id="top-bar">
+      <div class="info-group">
+        <span>문제</span>
+        <span id="round">1/10</span>
+      </div>
+      <div class="info-group">
+        <span>점수</span>
+        <span id="score">0</span>
+      </div>
+    </div>
+
+    <div id="command">준비!</div>
+
+    <div id="timer">3</div>
+
+    <div id="game-area">
+      <img id="pico" src="../image/flag/삐코_청기백기2.jpg">
+    </div>
+
+    <div id="button-area">
+      <button id="blue-btn">←청기</button>
+      <button id="white-btn">백기 →</button>
+    </div>
+  </div>
+  <div id="controls-guide">
+            <h3>⭐ 조작 방법 ⭐</h3>
+            <ul>
+                <li><span class="key">←</span> 왼쪽 이동</li>
+                <li><span class="key">→</span> 오른쪽 이동</li>
+                <li><span class="key">↓</span> 선택</li>
+            </ul>
+  </div>
+</div>
+
+<script src="flag_game.js"></script>
+
+</body>
+</html>
