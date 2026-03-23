@@ -11,50 +11,64 @@
 <body>
     <div id="container">
         <img id="background" src="../image/background.png" alt="background">
-
+ 
         <div id="screen">
             <div class="memo-wrap">
+                <!-- 뒤로가기 버튼 -->
+                <button id="back-btn">&lt;</button>
+ 
                 <h2 class="game-title">방향 암기게임</h2>
-
-                <div class="info-box">
+ 
+                <div class="info-box" id="info-box">
                     <span>라운드 : <span id="round"></span> / 5</span>
                     <span>성공 : <span id="score"></span></span>
                 </div>
-
-                <div class="gauge-wrap"> <!-- 게임 win 시 게이지 획득 부분 -->
+ 
+                <div class="gauge-wrap">
                     <div id="level" class="gauge-fill"></div>
                 </div>
-
+ 
                 <div id="timer-box">
                     남은 시간 : <span id="time">초</span>
                 </div>
-
-                <!-- <p id="phase-text">게임 시작 버튼을 누르세요</p> -->
-
-
-                <div id="input-display"></div> <!-- 게임 시에 <,>를 입력하는 박스! -->
-
+ 
+                <!-- 게임시작 오버레이 -->
+                <div id="start-overlay">게임 시작!</div>
+ 
+                <div id="input-display"></div>
+ 
                 <div id="arrow-display">
                     <img id="state-image" src="../image/삐코_암기게임.png" alt="삐코 상태 이미지">
-
+ 
                     <div id="input-bubble-wrap">
                         <img src="../image/삐코_말풍선.png" id="input-bubble" alt="입력 말풍선">
                         <div id="arrow-text"></div>
                     </div>
                 </div>
-
+ 
                 <div id="button-area">
                     <button class="arrow-btn" id="left-btn">←</button>
                     <button class="arrow-btn" id="right-btn">→</button>
                 </div>
-
+ 
                 <button id="start-btn">게임 시작</button>
+ 
+                <p id="result-message"></p>        
 
-                <p id="result-message"></p>
+                <!-- 실패 시 재도전 버튼 영역 -->
+                <div id="retry-area" style="display:none;">
+                    <p id="retry-message">재도전하시겠습니까?</p>
+                    <div id="retry-buttons">
+                        <button class="retry-btn" id="yes-btn">예</button>
+                        <button class="retry-btn" id="no-btn">아니오</button>
+                    </div>
+                </div>
+ 
+                
             </div>
         </div>
     </div>
-
+ 
     <script src="memorization_game.js"></script>
 </body>
 </html>
