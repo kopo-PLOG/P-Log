@@ -49,7 +49,7 @@ let isGameStarted = false;
 
 // 난이도 관련 변수
 let currentDiffIndex = 0; 
-const diffLevels = ['easy', 'medium', 'hard'];
+const diffLevels = ['easy', 'medium', 'hard', 'back'];
 
 
 // DOM 요소 가져오기
@@ -70,11 +70,15 @@ const diffButtons = document.querySelectorAll('.diff-btn');
 function updateDiffSelectionUI() {
     diffButtons.forEach((btn, index) => {
         if (index === currentDiffIndex) {
-            btn.style.backgroundColor = 'lightblue';
+            if(index === 3){
+                btn.style.backgroundColor = '#e0e0e0';
+            }else{
+                btn.style.backgroundColor = 'lightblue';
+            }
         } else {
             btn.style.backgroundColor = 'white';
-        }
-    });
+            }
+        });
 }
 
 // 화면이 처음 로드될 때 난이도 버튼 초기화
@@ -133,36 +137,25 @@ document.addEventListener('keydown', (e) => {
     // 1. 난이도 선택 화면일 때
     if (!isGameStarted) {
         if (e.key === 'ArrowLeft') {
-            currentDiffIndex = (currentDiffIndex - 1 + 3) % 3;
+            currentDiffIndex = (currentDiffIndex - 1 + diffLevels.length) % diffLevels.length;
             updateDiffSelectionUI();
         } else if (e.key === 'ArrowRight') {
-            currentDiffIndex = (currentDiffIndex + 1) % 3;
+            currentDiffIndex = (currentDiffIndex + 1) % diffLevels.length;
             updateDiffSelectionUI();
         } else if (e.key === 'ArrowDown') {
+            if (diffLevels[currentDiffIndex]==='back'){
+                goBack();
+            }else{
             startGame(diffLevels[currentDiffIndex]);
+            }
         }
         return; 
     }
 
     // 2. 게임 종료 상태일 때
     if (isGameOver) {
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-            currentSelectionIndex = currentSelectionIndex === 0 ? 1 : 0;
-            updateSelectionUI();
-        } else if (e.key === 'ArrowDown') {
-            if (currentSelectionIndex === 0) {
-                // '예' 선택 시: 난이도 선택 화면으로 복귀
-                isGameOver = false;
-                isGameStarted = false;
-                quizScreen.style.display = 'none';
-                diffScreen.style.display = 'flex';
-                
-                currentDiffIndex = 0;
-                updateDiffSelectionUI();
-            } else {
-                // '아니오' 선택 시
-                window.location.href = ""; 
-            }
+        if (e.key === 'ArrowDown'){
+            window.location.href = "../main/main.html"
         }
         return; 
     }
@@ -215,23 +208,44 @@ function showEndScreen() {
 
     screenEl.classList.remove('blink-blue', 'blink-red');
 
-    text1.innerHTML = `10문제 중 ${score}문제 정답!<br><br>다시 하시겠습니까?`;
-    
+    text1.innerHTML = `10문제 중 ${score}문제 정답!`;
+
+    let currentLevel = parseInt(localStorage.getItem("level"));
+
+    if (isNaN(currentLevel)) {
+        currentLevel = 0;
+    }
+
     if (score >= 7) {
+        currentLevel += 10;
         characterImg.src = '../image/삐코_환호.png';
         characterImg.classList.remove('shrink-image');
     } else {
+        currentLevel -= 5;
         characterImg.src = '../image/삐코_머쓱.png';
         characterImg.classList.add('shrink-image'); 
     }
 
+    if (currentLevel < 0) currentLevel = 0;      
+    if (currentLevel > 120) currentLevel = 120;
+
+    localStorage.setItem("level", currentLevel);
+
+    qts[1].style.display = 'none';
     qts[2].style.display = 'none';
     qts[3].style.display = 'none';
 
-    qts[0].innerText = "예";
-    qts[1].innerText = "아니오";
+    qts[0].innerText = "게임종료";
+
+    qts[0].style.top = '50%';
+    qts[0].style.left = '50%';
+    qts[0].style.transform = 'translate(-50%, -50%)';
 
     currentSelectionIndex = 0; 
     updateSelectionUI();
 }
 
+
+function goBack() {
+    window.location.href = "../game_list/game_list.html";
+}
