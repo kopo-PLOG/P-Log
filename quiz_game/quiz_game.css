@@ -5,6 +5,19 @@
     font-display: swap;
 }
 
+img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    -user-drag: none;
+}
+
 #container{
     display: flex;
     justify-content: center;
@@ -175,13 +188,14 @@
     background-color: white;
     border: 2px solid black;
     border-radius: 15px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    /* cursor: pointer;
+    transition: background-color 0.2s; */
+    pointer-events: none;
 }
 
-.diff-btn:hover {
+/* .diff-btn:hover {
     background-color: lightblue;
-}
+} */
 
 /* 퀴즈 화면이 표시될 때 기존 flex 구조 유지 */
 #quiz-screen {
