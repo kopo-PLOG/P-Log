@@ -223,11 +223,11 @@ function drawHealth(){
         heart2.firstElementChild.src = health[4].src;
         heart3.firstElementChild.src = s;
         heart4.firstElementChild.src = health[0].src;
-    }else if(healthGage > 120){
+    }else if(healthGage > 120 && healthGage <= 160){
         heart1.firstElementChild.src = health[4].src;
         heart2.firstElementChild.src = health[4].src;
         heart3.firstElementChild.src = health[4].src;
-        heart4.firstElementChild.src = health[4].src;
+        heart4.firstElementChild.src = s;
     }else if(healthGage === 0){
         heart1.firstElementChild.src = health[0].src;
         heart2.firstElementChild.src = health[0].src;
